@@ -109,8 +109,7 @@ pc.defineParameter(
 pc.defineParameter(
     "kubeNetworkPlugin","Kubernetes Network Plugin",
     portal.ParameterType.STRING,"calico",
-    [("calico","Calico"),("flannel","Flannel"),("weave","Weave"),
-     ("canal","Canal")],
+    [("calico","Calico"),("flannel","Flannel"),("weave","Weave")],
     longDescription="Choose the primary kubernetes network plugin.",
     advanced=True)
 pc.defineParameter(

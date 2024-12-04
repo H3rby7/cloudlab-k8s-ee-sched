@@ -263,10 +263,6 @@ elif [ "$KUBENETWORKPLUGIN" = "weave" ]; then
 cat <<EOF >> $OVERRIDES
 kube_network_plugin: weave
 EOF
-elif [ "$KUBENETWORKPLUGIN" = "canal" ]; then
-cat <<EOF >> $OVERRIDES
-kube_network_plugin: canal
-EOF
 fi
 
 if [ "$KUBEENABLEMULTUS" = "1" ]; then
