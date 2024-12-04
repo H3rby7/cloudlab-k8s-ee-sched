@@ -146,7 +146,7 @@ pc.defineParameter(
     advanced=True)
 pc.defineParameter(
     "kubeFeatureGates","Kubernetes Feature Gate List",
-    portal.ParameterType.STRING,"[EphemeralContainers=true]",
+    portal.ParameterType.STRING,"",
     longDescription="A []-enclosed, comma-separated list of features.  For instance, `[SCTPSupport=true]`.",
     advanced=True)
 pc.defineParameter(
