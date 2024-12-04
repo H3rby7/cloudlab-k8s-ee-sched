@@ -93,6 +93,20 @@ mkdir -p $INVDIR
 cp -pR kubespray/inventory/sample/group_vars $INVDIR
 mkdir -p $INVDIR/host_vars
 
+#
+# Handle role name change at release-2.16 .
+#
+ROLEMASTER="kube-master"
+ROLENODE="kube-node"
+grep -q kube_control_plane kubespray/inventory/sample/inventory.ini
+if [ $? -eq 0 ]; then
+    ROLEMASTER="kube_control_plane"
+fi
+grep -q kube_node kubespray/inventory/sample/inventory.ini
+if [ $? -eq 0 ]; then
+    ROLENODE="kube_node"
+fi
+
 HEAD_MGMT_IP=`getnodeip $HEAD $MGMTLAN`
 HEAD_DATA_IP=`getnodeip $HEAD $DATALAN`
 DATA_IP_REGEX=`getnetworkregex $HEAD $DATALAN`
@@ -111,8 +125,8 @@ for node in $NODES ; do
 
     touch $INVDIR/host_vars/$node.yml
 done
-# The first 2 nodes are kube-master.
-echo '[kube-master]' >> $INV
+# The first 2 nodes are kube-master (now kube_control_plane).
+echo "[$ROLEMASTER]" >> $INV
 for node in `echo $NODES | cut -d ' ' -f-2` ; do
     echo "$node" >> $INV
 done
@@ -125,20 +139,20 @@ echo '[etcd]' >> $INV
 for node in `echo $NODES | cut -d ' ' -f-$etcdcount` ; do
     echo "$node" >> $INV
 done
-# The last 2--N nodes are kube-node, unless there is only one node, or
+# The last 2--N nodes are kube-node (now kube_node), unless there is only one node, or
 # if user allows.
 kubenodecount=2
 if [ $KUBEALLWORKERS -eq 1 -o "$NODES" = `echo $NODES | cut -d ' ' -f2` ]; then
     kubenodecount=1
 fi
-echo '[kube-node]' >> $INV
+echo "[$ROLENODE]" >> $INV
 for node in `echo $NODES | cut -d ' ' -f${kubenodecount}-` ; do
     echo "$node" >> $INV
 done
 cat <<EOF >> $INV
 [k8s-cluster:children]
-kube-master
-kube-node
+$ROLEMASTER
+$ROLENODE
 EOF
 
 if [ $NODECOUNT -eq 1 ]; then
