@@ -442,7 +442,6 @@ EOF
 	    mi=`expr $mi + 1`
 	done
 	cat <<EOF >> $OVERRIDES
-  layer3:
 
   layer2:
 EOF
