@@ -1,0 +1,14 @@
+prometheus-windows-exporter:
+  prometheus:
+    monitor:
+      enabled: false
+alertmanager:
+  enabled: false
+grafana:
+  service:
+    type: LoadBalancer
+  admin:
+    existingSecret: grafana-admin
+prometheus:
+  service:
+    type: LoadBalancer
