@@ -39,6 +39,8 @@ grafana:
 prometheus:
   service:
     type: LoadBalancer
+  prometheusSpec:
+    serviceMonitorSelectorNilUsesHelmValues: false
 EOF
 helm install obs \
     prometheus-community/kube-prometheus-stack \
