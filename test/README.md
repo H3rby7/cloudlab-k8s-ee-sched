@@ -27,3 +27,11 @@ Test creating secret
     kubectl create secret generic grafana-admin --from-literal=admin-user=user1 --from-literal=admin-password=pwd1 --dry-run=client -o yaml
 
     echo dmFsdWUx | base64 -d
+
+## Ingress NGINX
+
+    helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+
+    helm repo update
+
+    helm install nginx ingress-nginx/ingress-nginx

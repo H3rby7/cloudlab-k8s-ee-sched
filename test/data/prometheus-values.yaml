@@ -7,8 +7,15 @@ prometheus-windows-exporter:
 alertmanager:
   enabled: false
 grafana:
-  service:
-    type: LoadBalancer
+  ingress:
+    enabled: true
+    annotations:
+      kubernetes.io/ingress.class: nginx
+    path: /grafana
+  grafana.ini:
+    server:
+      root_url: "http://${PUBLICADDRS}/grafana/"
+      serve_from_sub_path: true
   admin:
     existingSecret: grafana-admin
 prometheus:

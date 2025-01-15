@@ -137,12 +137,7 @@ pc.defineParameter(
 pc.defineParameter(
     "kubeDoMetalLB","Kubespray Enable MetalLB",
     portal.ParameterType.BOOLEAN,True,
-    longDescription="We enable MetalLB by default, so that users can use an \"external\" load balancer service type.  You need at least one public IP address for this option because it doesn't make sense without one.",
-    advanced=True)
-pc.defineParameter(
-    "publicIPCount", "Number of public IP addresses",
-    portal.ParameterType.INTEGER,2,
-    longDescription="Set the number of public IP addresses you will need for externally-published services (e.g., via a load balancer like MetalLB.",
+    longDescription="We enable MetalLB by default, so that the NGINX ingress controller can be reached.",
     advanced=True)
 pc.defineParameter(
     "kubeFeatureGates","Kubernetes Feature Gate List",
@@ -240,16 +235,6 @@ pc.defineStructParameter(
 #
 params = pc.bindParameters()
 
-if params.publicIPCount > 8:
-    perr = portal.ParameterWarning(
-        "You cannot request more than 8 public IP addresses, at least not without creating your own modified version of this profile!",
-        ["publicIPCount"])
-    pc.reportWarning(perr)
-if params.kubeDoMetalLB and params.publicIPCount < 1:
-    perr = portal.ParameterWarning(
-        "If you enable MetalLB, you must request at least one public IP address!",
-        ["kubeDoMetalLB","publicIPCount"])
-    pc.reportWarning(perr)
 i = 0
 for x in params.sharedVlans:
     n = 0
@@ -464,9 +449,9 @@ adminPassResource = EmulabEncrypt()
 rspec.addResource(adminPassResource)
 
 #
-# Grab a few public IP addresses.
+# Grab on public IP address for nginx.
 #
-apool = IG.AddressPool("node-0",params.publicIPCount)
+apool = IG.AddressPool("node-0", 1)
 rspec.addResource(apool)
 
 pc.printRequestRSpec(rspec)
