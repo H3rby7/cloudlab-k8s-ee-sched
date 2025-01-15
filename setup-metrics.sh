@@ -48,7 +48,8 @@ helm install obs \
 # Setup IPMI expoter to collect power data
 # https://github.com/prometheus-community/helm-charts/blob/main/charts/prometheus-ipmi-exporter/values.yaml
 cat <<EOF >$OURDIR/ipmi-exporter-values.yaml
-# no content yet
+serviceMonitor:
+  enabled: true
 EOF
 helm install ipmi \
     prometheus-community/prometheus-ipmi-exporter \
