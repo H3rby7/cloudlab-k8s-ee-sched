@@ -14,14 +14,19 @@ grafana:
     path: /grafana
   grafana.ini:
     server:
-      root_url: "http://${PUBLICADDRS}/grafana/"
+      root_url: "/grafana/"
       serve_from_sub_path: true
   admin:
     existingSecret: grafana-admin
 prometheus:
-  service:
-    type: LoadBalancer
+  ingress:
+    enabled: true
+    annotations:
+      kubernetes.io/ingress.class: nginx
+    paths:
+      - /prometheus
   prometheusSpec:
+    externalUrl: "/prometheus/"
     serviceMonitorSelectorNilUsesHelmValues: false
 prometheus-node-exporter:
   extraArgs:
