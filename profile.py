@@ -141,7 +141,7 @@ pc.defineParameter(
     advanced=True)
 pc.defineParameter(
     "publicIPCount", "Number of public IP addresses",
-    portal.ParameterType.INTEGER,1,
+    portal.ParameterType.INTEGER,2,
     longDescription="Set the number of public IP addresses you will need for externally-published services (e.g., via a load balancer like MetalLB.",
     advanced=True)
 pc.defineParameter(
@@ -166,7 +166,7 @@ pc.defineParameter(
     advanced=True)
 pc.defineParameter(
     "sslCertType","SSL Certificate Type",
-    portal.ParameterType.STRING,"self",
+    portal.ParameterType.STRING,"letsencrypt",
     [("none","None"),("self","Self-Signed"),("letsencrypt","Let's Encrypt")],
     advanced=True,
     longDescription="Choose an SSL Certificate strategy.  By default, we generate self-signed certificates, and only use them for a reverse web proxy to allow secure remote access to the Kubernetes Dashboard.  However, you may choose `None` if you prefer to arrange remote access differently (e.g. ssh port forwarding).  You may also choose to use Let's Encrypt certificates whose trust root is accepted by all modern browsers.")
@@ -293,6 +293,14 @@ Once the initial phase of experiment creation completes (disk load and node conf
   - Second, the Topology View will show you, for each node, the status of the startup command on each node (the startup command kicks off the setup scripts on each node).  Once the startup command has finished on each node, the overall State field will change to \"ready\".  If any of the startup scripts fail, you can mouse over the failed node in the topology viewer for the status code.
   - Third, the profile configuration scripts send emails: one to notify you that profile setup has started, and another notify you that setup has completed.
   - Finally, you can view [the profile setup script logfiles](http://{host-node-0}:7999/) as the setup scripts run.  Use the `admin` username and the automatically-generated random password `{password-adminPass}` .  This URL is available very quickly after profile setup scripts begin work.
+
+## Grafana Dashboard
+
+Exposed via LoadBalancer - find IP via:
+
+    kubectl get svc obs-grafana
+
+Login detials: username `admin`, password `{password-adminPass}`
 
 ## Kubernetes credentials and dashboard access
 
