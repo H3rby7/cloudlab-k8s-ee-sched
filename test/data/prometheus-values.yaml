@@ -1,3 +1,5 @@
+defaultRules:
+  create: false
 prometheus-windows-exporter:
   prometheus:
     monitor:

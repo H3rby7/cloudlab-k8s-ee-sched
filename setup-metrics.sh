@@ -25,6 +25,8 @@ kubectl create secret generic grafana-admin --from-literal=admin-user=${ADMIN} -
 # https://github.com/prometheus-community/helm-charts/blob/main/charts/kube-prometheus-stack/values.yaml
 
 cat <<EOF >$OURDIR/prometheus-values.yaml
+defaultRules:
+  create: false
 prometheus-windows-exporter:
   prometheus:
     monitor:
@@ -41,21 +43,20 @@ prometheus:
     type: LoadBalancer
   prometheusSpec:
     serviceMonitorSelectorNilUsesHelmValues: false
+prometheus-node-exporter:
+  extraArgs:
+    - --collector.filesystem.mount-points-exclude=^/(dev|proc|sys|var/lib/docker/.+|var/lib/kubelet/.+)($|/)
+    - --collector.filesystem.fs-types-exclude=^(autofs|binfmt_misc|bpf|cgroup2?|configfs|debugfs|devpts|devtmpfs|fusectl|hugetlbfs|iso9660|mqueue|nsfs|overlay|proc|procfs|pstore|rpc_pipefs|securityfs|selinuxfs|squashfs|sysfs|tracefs)$
+    - --collector.textfile.directory=/text-collectors
+  extraHostVolumeMounts:
+    - name: text-collectors
+      hostPath: /node-exporter-text-collectors
+      mountPath: /text-collectors
+      readOnly: true
 EOF
 helm install obs \
     prometheus-community/kube-prometheus-stack \
     -f $OURDIR/prometheus-values.yaml --wait
-
-
-# Setup IPMI expoter to collect power data
-# https://github.com/prometheus-community/helm-charts/blob/main/charts/prometheus-ipmi-exporter/values.yaml
-cat <<EOF >$OURDIR/ipmi-exporter-values.yaml
-serviceMonitor:
-  enabled: true
-EOF
-helm install ipmi \
-    prometheus-community/prometheus-ipmi-exporter \
-    -f $OURDIR/ipmi-exporter-values.yaml --wait
 
 
 logtend "metrics"
