@@ -16,3 +16,13 @@ prometheus:
     type: LoadBalancer
   prometheusSpec:
     serviceMonitorSelectorNilUsesHelmValues: false
+prometheus-node-exporter:
+  extraArgs:
+    - --collector.filesystem.mount-points-exclude=^/(dev|proc|sys|var/lib/docker/.+|var/lib/kubelet/.+)($|/)
+    - --collector.filesystem.fs-types-exclude=^(autofs|binfmt_misc|bpf|cgroup2?|configfs|debugfs|devpts|devtmpfs|fusectl|hugetlbfs|iso9660|mqueue|nsfs|overlay|proc|procfs|pstore|rpc_pipefs|securityfs|selinuxfs|squashfs|sysfs|tracefs)$
+    - --collector.textfile.directory=/text-collectors
+  extraHostVolumeMounts:
+    - name: text-collectors
+      hostPath: /node-exporter-text-collectors
+      mountPath: /text-collectors
+      readOnly: true
