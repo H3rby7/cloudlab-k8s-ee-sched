@@ -56,25 +56,20 @@ pc.verifyParameters()
 #
 kubeInstructions = \
   """
-## Waiting for your Experiment to Complete Setup
+## Test exposing params via profile instructions:
+
+    host-node-0 {host-node-0} (this is just the address of node-0, not the public addr)
+
+Failed attempts below:
 
 Test varaints to display the public IP:
 
-public-ip: {public-ip}
-
-node-0: {node-0}
-
-node-0-ipv4: {node-0-ipv4}
-
-node-0-ipv4-address: {node-0-ipv4-address}
-
-ipv4: {ipv4}
-
-ipv4-address: {ipv4-address}
-
-node-0-address: {node-0-address}
-
-host-node-0 {host-node-0} (this is just the address of node-0, not the public addr)
+    node-0: {node-0}
+    node-0-ipv4: {node-0-ipv4}
+    node-0-ipv4-address: {node-0-ipv4-address}
+    ipv4: {ipv4}
+    ipv4-address: {ipv4-address}
+    node-0-address: {node-0-address}
 
 """
 
@@ -113,9 +108,5 @@ for nname in nodes.keys():
 #
 apool = IG.AddressPool("node-0", 1)
 rspec.addResource(apool)
-
-el_ipv4 = ET.Element("public-ip")
-el_ipv4.text = apool[0].address
-rspec.addRawElement(el_ipv4)
 
 pc.printRequestRSpec(rspec)
