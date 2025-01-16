@@ -66,6 +66,10 @@ node-0-ipv4: {node-0-ipv4}
 
 node-0-ipv4-address: {node-0-ipv4-address}
 
+ipv4: {ipv4}
+
+ipv4-address: {ipv4-address}
+
 node-0-address: {node-0-address}
 
 Once the initial phase of experiment creation completes (disk load and node configuration), the profile's setup scripts begin the complex process of installing software according to profile parameters, so you must wait to access software resources until they complete.  The Kubernetes dashboard link will not be available immediately.  There are multiple ways to determine if the scripts have finished.
