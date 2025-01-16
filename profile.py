@@ -60,6 +60,8 @@ kubeInstructions = \
 
 Test varaints to display the public IP:
 
+public-ip: {public-ip}
+
 node-0: {node-0}
 
 node-0-ipv4: {node-0-ipv4}
@@ -72,11 +74,7 @@ ipv4-address: {ipv4-address}
 
 node-0-address: {node-0-address}
 
-Once the initial phase of experiment creation completes (disk load and node configuration), the profile's setup scripts begin the complex process of installing software according to profile parameters, so you must wait to access software resources until they complete.  The Kubernetes dashboard link will not be available immediately.  There are multiple ways to determine if the scripts have finished.
-  - First, you can watch the experiment status page: the overall State will say \"booted (startup services are still running)\" to indicate that the nodes have booted up, but the setup scripts are still running.
-  - Second, the Topology View will show you, for each node, the status of the startup command on each node (the startup command kicks off the setup scripts on each node).  Once the startup command has finished on each node, the overall State field will change to \"ready\".  If any of the startup scripts fail, you can mouse over the failed node in the topology viewer for the status code.
-  - Third, the profile configuration scripts send emails: one to notify you that profile setup has started, and another notify you that setup has completed.
-  - Finally, you can view [the profile setup script logfiles](http://{host-node-0}:7999/) as the setup scripts run.  Use the `admin` username and the automatically-generated random password `{password-adminPass}` .  This URL is available very quickly after profile setup scripts begin work.
+host-node-0 {host-node-0} (this is just the address of node-0, not the public addr)
 
 """
 
@@ -84,7 +82,7 @@ Once the initial phase of experiment creation completes (disk load and node conf
 # Customizable area for forks.
 #
 tourDescription = \
-  "This profile creates a Kubernetes cluster with [Kubespray]().  When you click the Instantiate button, you'll be presented with a list of parameters that you can change to control what your Kubernetes cluster will look like; read the parameter documentation on that page (or in the Instructions)."
+  "This profile attempts placeholder replacement to get the public IP addr."
 
 tourInstructions = kubeInstructions
 
@@ -115,5 +113,9 @@ for nname in nodes.keys():
 #
 apool = IG.AddressPool("node-0", 1)
 rspec.addResource(apool)
+
+el_ipv4 = ET.Element("public-ip")
+el_ipv4.text = apool[0].address
+rspec.addRawElement(el_ipv4)
 
 pc.printRequestRSpec(rspec)
