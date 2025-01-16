@@ -293,7 +293,7 @@ Once the initial phase of experiment creation completes (disk load and node conf
 
 Exposed via NGINX Ingress and LoadBalancer - find IP in the manifests (public IP addr) or
 
-    kubectl get svc 
+    kubectl get svc nginx-ingress-nginx-controller | awk -F ' ' '{print $4}'
 
 Basic Auth for all ingresses and grafana login: username `admin`, password `{password-adminPass}`
 
