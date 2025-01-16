@@ -273,6 +273,16 @@ kubeInstructions = \
   """
 ## Waiting for your Experiment to Complete Setup
 
+Test varaints to display the public IP:
+
+routable_pool: {routable_pool}
+
+routable_pool-ipv4: {routable_pool-ipv4}
+
+routable_pool-ipv4-address: {routable_pool-ipv4-address}
+
+routable_pool-address: {routable_pool-address}
+
 Once the initial phase of experiment creation completes (disk load and node configuration), the profile's setup scripts begin the complex process of installing software according to profile parameters, so you must wait to access software resources until they complete.  The Kubernetes dashboard link will not be available immediately.  There are multiple ways to determine if the scripts have finished.
   - First, you can watch the experiment status page: the overall State will say \"booted (startup services are still running)\" to indicate that the nodes have booted up, but the setup scripts are still running.
   - Second, the Topology View will show you, for each node, the status of the startup command on each node (the startup command kicks off the setup scripts on each node).  Once the startup command has finished on each node, the overall State field will change to \"ready\".  If any of the startup scripts fail, you can mouse over the failed node in the topology viewer for the status code.
