@@ -289,13 +289,13 @@ Once the initial phase of experiment creation completes (disk load and node conf
   - Third, the profile configuration scripts send emails: one to notify you that profile setup has started, and another notify you that setup has completed.
   - Finally, you can view [the profile setup script logfiles](http://{host-node-0}:7999/) as the setup scripts run.  Use the `admin` username and the automatically-generated random password `{password-adminPass}` .  This URL is available very quickly after profile setup scripts begin work.
 
-## Grafana Dashboard
+## Grafana/Prometheus
 
-Exposed via LoadBalancer - find IP via:
+Exposed via NGINX Ingress and LoadBalancer - find IP in the manifests (public IP addr) or
 
-    kubectl get svc obs-grafana
+    kubectl get svc 
 
-Login detials: username `admin`, password `{password-adminPass}`
+Basic Auth for all ingresses and grafana login: username `admin`, password `{password-adminPass}`
 
 ## Kubernetes credentials and dashboard access
 
