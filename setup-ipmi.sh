@@ -36,7 +36,7 @@ Description=Update IPMI readings
 Type=simple
 Restart=always
 User=root
-ExecStart=/bin/sh -c "ipmitool sensor | grep Pwr | ipmi2prom | sponge /node-exporter-text-collectors/ipmi.prom"
+ExecStart=/bin/sh -c "ipmitool sensor | ipmi2prom | sponge /node-exporter-text-collectors/ipmi.prom"
 StandardOutput=journal+console
 StandardError=journal+console
 
