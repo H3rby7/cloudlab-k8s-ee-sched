@@ -92,6 +92,24 @@ tour.Description(IG.Tour.TEXT,tourDescription)
 tour.Instructions(IG.Tour.MARKDOWN,tourInstructions)
 rspec.addTour(tour)
 
+nodes = dict({})
+
+for i in range(0,params.nodeCount):
+    nodename = "node-%d" % (i,)
+    node = RSpec.RawPC(nodename)
+    if params.nodeType:
+        node.hardware_type = params.nodeType
+    if params.diskImage:
+        node.disk_image = params.diskImage
+    if TBCMD is not None:
+        node.addService(RSpec.Execute(shell="sh",command=TBCMD))
+    if disableTestbedRootKeys:
+        node.installRootKeys(False, False)
+    nodes[nodename] = node
+
+for nname in nodes.keys():
+    rspec.addResource(nodes[nname])
+
 #
 # Grab on public IP address for nginx.
 #
