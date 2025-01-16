@@ -20,12 +20,12 @@ fi
 
 logtstart "ipmi-$EUID"
 
-apt-get install -y ipmitool moreutils
-mkdir -p /node-exporter-text-collectors
-chmod 777 /node-exporter-text-collectors
-wget -O ipmi2prom https://github.com/prometheus-community/node-exporter-textfile-collector-scripts/raw/4098ef9ba573cd5ac20e01d63d1586925348a4ac/ipmitool
-chmod +x ipmi2prom
-mv ipmi2prom /usr/bin/ipmi2prom
+$SUDO apt-get install -y ipmitool moreutils
+$SUDO mkdir -p /node-exporter-text-collectors
+$SUDO chmod 777 /node-exporter-text-collectors
+$SUDO wget -O ipmi2prom https://github.com/prometheus-community/node-exporter-textfile-collector-scripts/raw/4098ef9ba573cd5ac20e01d63d1586925348a4ac/ipmitool
+$SUDO chmod +x ipmi2prom
+$SUDO mv ipmi2prom /usr/bin/ipmi2prom
 
 # Create a service to run ipmi
 cat <<'EOF' | $SUDO tee /etc/systemd/system/ipmi.service
@@ -57,8 +57,8 @@ AccuracySec=1s
 [Install]
 WantedBy=timers.target
 EOF
-systemctl daemon-reload
-systemctl enable --now my_command.timer
+$SUDO systemctl daemon-reload
+$SUDO systemctl enable --now ipmi.timer
 
 logtend "ipmi-$EUID"
 

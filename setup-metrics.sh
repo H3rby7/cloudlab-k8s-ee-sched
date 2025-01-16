@@ -22,8 +22,9 @@ helm repo update
 kubectl create secret generic grafana-admin --from-literal=admin-user=${ADMIN} --from-literal=admin-password=${ADMIN_PASS}
 
 # Create secret for ingress BASIC AUTH
-echo "$ADMIN_PASS" | htpasswd -n -i "$ADMIN" | tee -a nginx-htpasswd
-kubectl create secret generic ingress-basic-auth --from-file=nginx-htpasswd
+# Output file name must be 'auth' as this will be the KEY inside the secret
+echo "$ADMIN_PASS" | htpasswd -n -i "$ADMIN" | tee -a auth
+kubectl create secret generic ingress-basic-auth --from-file=auth
 
 # Setup nginx
 # https://kubernetes.github.io/ingress-nginx/
@@ -75,6 +76,8 @@ grafana:
       serve_from_sub_path: true
   admin:
     existingSecret: grafana-admin
+  serviceMonitor:
+    enabled: false
 prometheus:
   ingress:
     enabled: true
