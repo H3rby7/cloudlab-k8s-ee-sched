@@ -38,7 +38,7 @@ pc = portal.Context()
 pc.defineParameter(
     "nodeCount","Number of Nodes",
     portal.ParameterType.INTEGER,1,
-    longDescription="Number of nodes in your kubernetes cluster.  Should be either 1, or >= 3.")
+    longDescription="Number of nodes.")
 
 #
 # Get any input parameter values that will override our defaults.
@@ -97,10 +97,6 @@ nodes = dict({})
 for i in range(0,params.nodeCount):
     nodename = "node-%d" % (i,)
     node = RSpec.RawPC(nodename)
-    if params.nodeType:
-        node.hardware_type = params.nodeType
-    if params.diskImage:
-        node.disk_image = params.diskImage
     if TBCMD is not None:
         node.addService(RSpec.Execute(shell="sh",command=TBCMD))
     if disableTestbedRootKeys:
