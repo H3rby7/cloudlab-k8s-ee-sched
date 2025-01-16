@@ -6,11 +6,31 @@ prometheus-windows-exporter:
       enabled: false
 alertmanager:
   enabled: false
+kubeApiServer:
+  enabled: false
+kubelet:
+  enabled: false
+kubeControllerManager:
+  enabled: false
+coreDns:
+  enabled: false
+kubeDns:
+  enabled: false
+kubeEtcd:
+  enabled: false
+kubeProxy:
+  enabled: false
+kubeStateMetrics:
+  enabled: false
+kubeScheduler:
+  enabled: true
 grafana:
   ingress:
     enabled: true
     annotations:
       kubernetes.io/ingress.class: nginx
+      nginx.ingress.kubernetes.io/auth-type: basic
+      nginx.ingress.kubernetes.io/auth-secret: ingress-basic-auth
     path: /grafana
   grafana.ini:
     server:
@@ -23,10 +43,13 @@ prometheus:
     enabled: true
     annotations:
       kubernetes.io/ingress.class: nginx
+      nginx.ingress.kubernetes.io/auth-type: basic
+      nginx.ingress.kubernetes.io/auth-secret: ingress-basic-auth
     paths:
       - /prometheus
   prometheusSpec:
     externalUrl: "/prometheus/"
+    routePrefix: /prometheus
     serviceMonitorSelectorNilUsesHelmValues: false
 prometheus-node-exporter:
   extraArgs:

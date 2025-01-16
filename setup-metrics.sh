@@ -18,8 +18,12 @@ helm repo add ingress-nginx \
     https://kubernetes.github.io/ingress-nginx
 helm repo update
 
-# Create admin secret(s)
+# Create GRAFANA admin secret
 kubectl create secret generic grafana-admin --from-literal=admin-user=${ADMIN} --from-literal=admin-password=${ADMIN_PASS}
+
+# Create secret for ingress BASIC AUTH
+echo "$ADMIN_PASS" | htpasswd -n -i "$ADMIN" | tee -a nginx-htpasswd
+kubectl create secret generic ingress-basic-auth --from-file=nginx-htpasswd
 
 # Setup nginx
 # https://kubernetes.github.io/ingress-nginx/
@@ -39,20 +43,50 @@ prometheus-windows-exporter:
       enabled: false
 alertmanager:
   enabled: false
+kubeApiServer:
+  enabled: false
+kubelet:
+  enabled: false
+kubeControllerManager:
+  enabled: false
+coreDns:
+  enabled: false
+kubeDns:
+  enabled: false
+kubeEtcd:
+  enabled: false
+kubeProxy:
+  enabled: false
+kubeStateMetrics:
+  enabled: false
+kubeScheduler:
+  enabled: true
 grafana:
   ingress:
     enabled: true
     annotations:
       kubernetes.io/ingress.class: nginx
+      nginx.ingress.kubernetes.io/auth-type: basic
+      nginx.ingress.kubernetes.io/auth-secret: ingress-basic-auth
     path: /grafana
   grafana.ini:
     server:
-      root_url: "http://${PUBLICADDRS}/grafana/"
+      root_url: "/grafana/"
       serve_from_sub_path: true
   admin:
     existingSecret: grafana-admin
 prometheus:
+  ingress:
+    enabled: true
+    annotations:
+      kubernetes.io/ingress.class: nginx
+      nginx.ingress.kubernetes.io/auth-type: basic
+      nginx.ingress.kubernetes.io/auth-secret: ingress-basic-auth
+    paths:
+      - /prometheus
   prometheusSpec:
+    externalUrl: "/prometheus/"
+    routePrefix: /prometheus
     serviceMonitorSelectorNilUsesHelmValues: false
 prometheus-node-exporter:
   extraArgs:
