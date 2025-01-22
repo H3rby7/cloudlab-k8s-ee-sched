@@ -7,7 +7,11 @@ Based on:  https://gitlab.flux.utah.edu/johnsond/k8s-profile
 # TODOs
 
 1. Deploy and run muBench with default scheduler
-1. Export data from prometheus for analysis in Matlab
+2. Prometheus target that exposes pod metrics
+   1. to get proper requests/limits values for the mubench cell
+3. Node-Exporter IPMI scrape interval to 10s (from 30s default)
+4. Export data from prometheus for analysis in Matlab
+5. create serviceMonitor for muBench service cells (so prometheus can scrape their metrics)
 
 # Cheatsheet
 
