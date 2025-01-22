@@ -7,9 +7,9 @@ prometheus-windows-exporter:
 alertmanager:
   enabled: false
 kubeApiServer:
-  enabled: false
+  enabled: true
 kubelet:
-  enabled: false
+  enabled: true
 kubeControllerManager:
   enabled: false
 coreDns:
