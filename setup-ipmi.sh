@@ -50,8 +50,8 @@ cat <<'EOF' | $SUDO tee /etc/systemd/system/ipmi.timer
 Description=Run ipmi.service every 10 seconds
 
 [Timer]
-OnBootSec=10s
-OnUnitActiveSec=10s
+OnBootSec=5s
+OnUnitActiveSec=5s
 AccuracySec=1s
 
 [Install]

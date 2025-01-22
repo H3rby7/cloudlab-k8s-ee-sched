@@ -105,6 +105,9 @@ prometheus-node-exporter:
       hostPath: /node-exporter-text-collectors
       mountPath: /text-collectors
       readOnly: true
+  prometheus:
+    monitor:
+      interval: 10s
 prometheusOperator:
   namespaces:
     releaseNamespace: true
