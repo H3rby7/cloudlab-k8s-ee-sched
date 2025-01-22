@@ -59,7 +59,7 @@ kubeEtcd:
 kubeProxy:
   enabled: false
 kubeStateMetrics:
-  enabled: false
+  enabled: true
 kubeScheduler:
   enabled: true
 grafana:
