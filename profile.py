@@ -303,9 +303,9 @@ Kubespray is a collection of Ansible playbooks, so you can make changes to the d
 
 1. "Enter" (or access) the `virtualenv`: `. /local/setup/kubespray-virtualenv/bin/activate`
 2. Leave (or remove the environment vars from your shell session) the `virtualenv`: `deactivate`
-3. Destroy your entire kubernetes cluster: `ansible-playbook -i /local/setup/inventories/emulab/inventory.ini /local/setup/kubespray/remove-node.yml -b -v --extra-vars "node=node-0,node-1,node-2"`
+3. Destroy your entire kubernetes cluster: `ansible-playbook -i /local/setup/inventories/kubernetes/inventory.ini /local/setup/kubespray/remove-node.yml -b -v --extra-vars "node=node-0,node-1,node-2"`
    (note that you would want to supply the short names of all nodes in your experiment)
-4. Recreate your kubernetes cluster: `ansible-playbook -i /local/setup/inventories/emulab/inventory.ini /local/setup/kubespray/cluster.yml -b -v`
+4. Recreate your kubernetes cluster: `ansible-playbook -i /local/setup/inventories/kubernetes/inventory.ini /local/setup/kubespray/cluster.yml -b -v`
 
 To change the Ansible and playbook configuration, you can start reading Kubespray documentation:
   - https://github.com/kubernetes-sigs/kubespray/blob/master/docs/getting-started.md
