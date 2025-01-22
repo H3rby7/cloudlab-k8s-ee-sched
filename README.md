@@ -1,10 +1,13 @@
+# Cloudlab EE Scheduler Benchmarking Profile
+
+
+
+Based on:  https://gitlab.flux.utah.edu/johnsond/k8s-profile
+
 # TODOs
 
+1. Deploy and run muBench with default scheduler
 1. Export data from prometheus for analysis in Matlab
-2. Ease and secure access to setup using https://kubernetes.github.io/ingress-nginx/deploy/:
-   1. https://kubernetes.github.io/ingress-nginx/examples/auth/basic/
-      1. prometheus
-      2. grafana
 
 # Cheatsheet
 

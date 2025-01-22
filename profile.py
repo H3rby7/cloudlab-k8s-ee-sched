@@ -271,17 +271,11 @@ pc.verifyParameters()
 #
 kubeInstructions = \
   """
+## Authorization
+
+Standard Auth for almost anything: username `admin`, password `{password-adminPass}`
+
 ## Waiting for your Experiment to Complete Setup
-
-Test varaints to display the public IP:
-
-routable_pool: {routable_pool}
-
-routable_pool-ipv4: {routable_pool-ipv4}
-
-routable_pool-ipv4-address: {routable_pool-ipv4-address}
-
-routable_pool-address: {routable_pool-address}
 
 Once the initial phase of experiment creation completes (disk load and node configuration), the profile's setup scripts begin the complex process of installing software according to profile parameters, so you must wait to access software resources until they complete.  The Kubernetes dashboard link will not be available immediately.  There are multiple ways to determine if the scripts have finished.
   - First, you can watch the experiment status page: the overall State will say \"booted (startup services are still running)\" to indicate that the nodes have booted up, but the setup scripts are still running.
@@ -289,25 +283,17 @@ Once the initial phase of experiment creation completes (disk load and node conf
   - Third, the profile configuration scripts send emails: one to notify you that profile setup has started, and another notify you that setup has completed.
   - Finally, you can view [the profile setup script logfiles](http://{host-node-0}:7999/) as the setup scripts run.  Use the `admin` username and the automatically-generated random password `{password-adminPass}` .  This URL is available very quickly after profile setup scripts begin work.
 
-## Grafana/Prometheus
+## Accessing Services
 
-Exposed via NGINX Ingress and LoadBalancer - find IP in the manifests (public IP addr) or
+Everything you need to access is exposed via NGINX Ingress and LoadBalancer - find IP in the manifests (public IP addr) or
 
     kubectl get svc nginx-ingress-nginx-controller | awk -F ' ' '{print $4}'
 
-Basic Auth for all ingresses and grafana login: username `admin`, password `{password-adminPass}`
+When prompted for a login, use the standard credentials.
 
-## Kubernetes credentials and dashboard access
+## Kubernetes, Kubectl and kubeconf
 
-Once the profile's scripts have finished configuring software in your experiment, you'll be able to visit [the Kubernetes Dashboard WWW interface](https://{host-node-0}:8080/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/#!/login) (approx. 10-15 minutes for the Kubernetes portion alone).
-
-The easiest login option is to use token authentication.  (Basic auth is configured if available, for older kubernetes versions, username `admin` password `{password-adminPass}`.  You may also supply a kubeconfig file, but we don't provide one that includes a secret by default, so you would have to generate that.)
-
-For `token` authentication: copy the token from http://{host-node-0}:7999/admin-token.txt (username `admin`, password `{password-adminPass}`) (this file is located on `node-0` in `/local/setup/admin-token.txt`).
-
-(To provide secure dashboard access, we run a `kube-proxy` instance that listens on localhost:8888 and accepts all incoming hosts, and export that via nginx proxy listening on `{host-node-0}:8080` (but note that the proxy is restricted by path to the dashboard path only, so you cannot use this more generally).  We also create an `admin` `serviceaccount` in the `default` namespace, and that is the serviceaccount associated with the token auth option mentioned just above.)
- 
-Kubernetes credentials are in `~/.kube/config`, or in `/root/.kube/config`, as you'd expect.
+Kubernetes credentials are in `~/.kube/config`, or in `/root/.kube/config` (of node-0), as you'd expect.
 
 ## Changing your Kubernetes deployment
 
