@@ -287,7 +287,7 @@ Once the initial phase of experiment creation completes (disk load and node conf
 
 Everything you need to access is exposed via NGINX Ingress and LoadBalancer - find IP in the manifests (public IP addr) or
 
-    kubectl get svc nginx-ingress-nginx-controller | awk -F ' ' '{print $4}'
+    kubectl -nnginx get svc nginx-ingress-nginx-controller | awk -F ' ' '{print $4}'
 
 When prompted for a login, use the standard credentials.
 

@@ -18,18 +18,22 @@ helm repo add ingress-nginx \
     https://kubernetes.github.io/ingress-nginx
 helm repo update
 
+kubectl create namespace monitoring
+kubectl create namespace nginx
+
 # Create GRAFANA admin secret
-kubectl create secret generic grafana-admin --from-literal=admin-user=${ADMIN} --from-literal=admin-password=${ADMIN_PASS}
+kubectl --namespace monitoring create secret generic grafana-admin --from-literal=admin-user=${ADMIN} --from-literal=admin-password=${ADMIN_PASS}
 
 # Create secret for ingress BASIC AUTH
 # Output file name must be 'auth' as this will be the KEY inside the secret
 echo "$ADMIN_PASS" | htpasswd -n -i "$ADMIN" | tee -a auth
-kubectl create secret generic ingress-basic-auth --from-file=auth
+kubectl --namespace monitoring create secret generic ingress-basic-auth --from-file=auth
+rm auth
 
 # Setup nginx
 # https://kubernetes.github.io/ingress-nginx/
 
-helm install nginx ingress-nginx/ingress-nginx --wait
+helm install nginx ingress-nginx/ingress-nginx --namespace nginx --wait
 
 
 # Setup prometheus stack for metric collection
@@ -101,9 +105,17 @@ prometheus-node-exporter:
       hostPath: /node-exporter-text-collectors
       mountPath: /text-collectors
       readOnly: true
+prometheusOperator:
+  namespaces:
+    releaseNamespace: true
+    additional:
+    - kube-system
+    - default
+    - mubench
 EOF
 helm install obs \
     prometheus-community/kube-prometheus-stack \
+    --namespace monitoring \
     -f $OURDIR/prometheus-values.yaml --wait
 
 

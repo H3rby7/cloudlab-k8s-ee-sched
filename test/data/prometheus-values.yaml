@@ -63,3 +63,10 @@ prometheus-node-exporter:
       hostPath: /node-exporter-text-collectors
       mountPath: /text-collectors
       readOnly: true
+prometheusOperator:
+  namespaces:
+    releaseNamespace: true
+    additional:
+    - kube-system
+    - default
+    - mubench
