@@ -72,6 +72,19 @@ prometheus-node-exporter:
   prometheus:
     monitor:
       interval: 10s
+      relabelings:
+        - sourceLabels: [__meta_kubernetes_pod_node_name]
+          separator: ;
+          regex: ^(.*)$
+          targetLabel: node_name
+          replacement: $1
+          action: replace
+        - sourceLabels: [__meta_kubernetes_pod_host_ip]
+          separator: ;
+          regex: ^(.*)$
+          targetLabel: node_ip
+          replacement: $1
+          action: replace
 prometheusOperator:
   namespaces:
     releaseNamespace: true
