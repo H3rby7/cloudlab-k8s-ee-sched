@@ -2,8 +2,10 @@
 
 set -x
 
+REPODIR=`dirname $0`
+
 # Grab our libs
-. "`dirname $0`/setup-lib.sh"
+. "${REPODIR}/setup-lib.sh"
 
 if [ -f $OURDIR/metrics-done ]; then
     exit 0
@@ -35,91 +37,11 @@ rm auth
 
 helm install nginx ingress-nginx/ingress-nginx --namespace nginx --wait
 
-
 # Setup prometheus stack for metric collection
-# https://github.com/prometheus-community/helm-charts/blob/main/charts/kube-prometheus-stack/values.yaml
-
-cat <<EOF >$OURDIR/prometheus-values.yaml
-defaultRules:
-  create: false
-prometheus-windows-exporter:
-  prometheus:
-    monitor:
-      enabled: false
-alertmanager:
-  enabled: false
-kubeApiServer:
-  enabled: true
-kubelet:
-  enabled: true
-kubeControllerManager:
-  enabled: false
-coreDns:
-  enabled: false
-kubeDns:
-  enabled: false
-kubeEtcd:
-  enabled: false
-kubeProxy:
-  enabled: false
-kubeStateMetrics:
-  enabled: true
-kubeScheduler:
-  enabled: true
-grafana:
-  ingress:
-    enabled: true
-    annotations:
-      kubernetes.io/ingress.class: nginx
-      nginx.ingress.kubernetes.io/auth-type: basic
-      nginx.ingress.kubernetes.io/auth-secret: ingress-basic-auth
-    path: /grafana
-  grafana.ini:
-    server:
-      root_url: "/grafana/"
-      serve_from_sub_path: true
-  admin:
-    existingSecret: grafana-admin
-  serviceMonitor:
-    enabled: false
-prometheus:
-  ingress:
-    enabled: true
-    annotations:
-      kubernetes.io/ingress.class: nginx
-      nginx.ingress.kubernetes.io/auth-type: basic
-      nginx.ingress.kubernetes.io/auth-secret: ingress-basic-auth
-    paths:
-      - /prometheus
-  prometheusSpec:
-    externalUrl: "/prometheus/"
-    routePrefix: /prometheus
-    serviceMonitorSelectorNilUsesHelmValues: false
-prometheus-node-exporter:
-  extraArgs:
-    - --collector.filesystem.mount-points-exclude=^/(dev|proc|sys|var/lib/docker/.+|var/lib/kubelet/.+)($|/)
-    - --collector.filesystem.fs-types-exclude=^(autofs|binfmt_misc|bpf|cgroup2?|configfs|debugfs|devpts|devtmpfs|fusectl|hugetlbfs|iso9660|mqueue|nsfs|overlay|proc|procfs|pstore|rpc_pipefs|securityfs|selinuxfs|squashfs|sysfs|tracefs)$
-    - --collector.textfile.directory=/text-collectors
-  extraHostVolumeMounts:
-    - name: text-collectors
-      hostPath: /node-exporter-text-collectors
-      mountPath: /text-collectors
-      readOnly: true
-  prometheus:
-    monitor:
-      interval: 10s
-prometheusOperator:
-  namespaces:
-    releaseNamespace: true
-    additional:
-    - kube-system
-    - default
-    - mubench
-EOF
 helm install obs \
     prometheus-community/kube-prometheus-stack \
     --namespace monitoring \
-    -f $OURDIR/prometheus-values.yaml --wait
+    -f $REPODIR/prometheus-values.yaml --wait
 
 
 logtend "metrics"

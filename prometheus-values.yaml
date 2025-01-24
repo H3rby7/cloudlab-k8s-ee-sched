@@ -1,5 +1,11 @@
+# https://github.com/prometheus-community/helm-charts/blob/main/charts/kube-prometheus-stack/values.yaml
+
 defaultRules:
-  create: false
+  create: true
+  rules:
+    alertmanager: false
+    configReloaders: false
+    windows: false
 prometheus-windows-exporter:
   prometheus:
     monitor:
