@@ -16,3 +16,9 @@ See ['kubeInstructions' of profile.py](profile.py).
 adding +x permissions on windows git (for sh files)
 
    git update-index --chmod=+x setup-file.sh
+
+## Grafana Dashboards
+
+Export JSON from Web-GUI and minify using two regexp replacements onto the string:
+
+`^\s+` with `<nothing>` and `\n` with `<nothing>`
