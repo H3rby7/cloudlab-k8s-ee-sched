@@ -44,7 +44,7 @@ helm install obs \
     -f $REPODIR/prometheus-values.yaml --wait
 
 # Create configMap that will be detected and deployed by the grafana sidecar
-kubectl create --namespace monitoring -f $REPODIR/custom-grafana-dashboards
+kubectl create --namespace monitoring -f $REPODIR/custom-grafana-dashboards.yaml
 
 logtend "metrics"
 touch $OURDIR/metrics-done
