@@ -177,7 +177,7 @@ ansible_user: $SWAPPER
 kube_apiserver_node_port_range: 2000-36767
 kubeadm_enabled: true
 dns_min_replicas: 1
-dashboard_enabled: true
+dashboard_enabled: false
 dashboard_token_ttl: 43200
 enable_nodelocaldns: false
 enable_nodelocaldns_secondary: false
@@ -283,7 +283,7 @@ docker_dns_servers_strict: false
 kubectl_localhost: true
 kubeconfig_localhost: true
 docker_options: "$DOCKOPTS ${DOCKEROPTIONS}"
-metrics_server_enabled: true
+metrics_server_enabled: false
 kube_basic_auth: true
 kube_api_pwd: "$ADMIN_PASS"
 kube_users:
