@@ -301,8 +301,8 @@ The profile's setup scripts are automatically installed on each node in `/local/
 
 Kubespray is a collection of Ansible playbooks, so you can make changes to the deployed kubernetes cluster, or even destroy and rebuild it (although you would then lose any of the post-install configuration we do in `/local/repository/setup-kubernetes-extra.sh`).  The `/local/repository/setup-kubespray.sh` script installs Ansible inside a Python 3 `virtualenv` (in `/local/setup/kubespray-virtualenv` on `node-0`).  A `virtualenv` (or `venv`) is effectively a separate part of the filesystem containing Python libraries and scripts, and a set of environment variables and paths that restrict its user to those Python libraries and scripts.  To modify your cluster's configuration in the Kubespray/Ansible way, you can run commands like these (as your uid):
 
-1. "Enter" (or access) the `virtualenv`: `. /local/setup/kubespray-virtualenv/bin/activate`
-2. Leave (or remove the environment vars from your shell session) the `virtualenv`: `deactivate`
+1. "Enter" (or access) the "virtualenv": `. /local/setup/kubespray-virtualenv/bin/activate`
+2. Leave (or remove the environment vars from your shell session) the "virtualenv": `deactivate`
 3. Destroy your entire kubernetes cluster: `ansible-playbook -i /local/setup/inventories/kubernetes/inventory.ini /local/setup/kubespray/remove-node.yml -b -v --extra-vars "node=node-0,node-1,node-2"`
    (note that you would want to supply the short names of all nodes in your experiment)
 4. Recreate your kubernetes cluster: `ansible-playbook -i /local/setup/inventories/kubernetes/inventory.ini /local/setup/kubespray/cluster.yml -b -v`
