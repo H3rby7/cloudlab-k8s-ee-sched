@@ -141,6 +141,14 @@ kube-master
 kube-node
 EOF
 
+# 3rd node will be used to host all observer pods and our runner
+# We would not need to give it an extra label but it sure looks nicer.
+observernodecount=3
+echo '[observer-node]' >> $INV
+for node in `echo $NODES | cut -d ' ' -f${observernodecount}` ; do
+    echo "$node" >> $INV
+done
+
 # Starting with node 4: usable for the benchmarking
 benchmarknodecount=4
 echo '[benchmarking-node]' >> $INV
@@ -149,6 +157,9 @@ for node in `echo $NODES | cut -d ' ' -f${benchmarknodecount}-` ; do
 done
 
 cat <<EOF >> $INV
+[observer-node:vars]
+node_labels={"node-role.kubernetes.io/observer":""}
+
 [benchmarking-node:vars]
 node_labels={"node-role.kubernetes.io/benchmarking":""}
 node_taints=["benchmarking=yes:NoSchedule"]
