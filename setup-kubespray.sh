@@ -141,6 +141,19 @@ kube-master
 kube-node
 EOF
 
+# The last 3--N nodes used for the benchmarking
+benchmarknodecount=3
+echo '[benchmarking-node]' >> $INV
+for node in `echo $NODES | cut -d ' ' -f${benchmarknodecount}-` ; do
+    echo "$node" >> $INV
+done
+
+cat <<EOF >> $INV
+[benchmarking-node:vars]
+node_labels={"benchmarking-node":true}
+node_taints=["benchmarking=true:NoSchedule"]
+EOF
+
 if [ $NODECOUNT -eq 1 ]; then
     # We cannot use localhost; we have to use a dummy device, and that
     # works fine.  We need to fix things up because there is nothing in
