@@ -1,8 +1,21 @@
 # Cloudlab EE Scheduler Benchmarking Profile
 
-Based on:  https://gitlab.flux.utah.edu/johnsond/k8s-profile
+Create a kubernetes cluster to benchmark schedulers with 
+* the service-cell approach from [µBench](https://github.com/mSvcBench/muBench)
+* Workload modeled from Alibaba 2022 microservice traces
+
+Forked cloudlab-profile from:  https://gitlab.flux.utah.edu/johnsond/k8s-profile
 
 See ['kubeInstructions' of profile.py](profile.py).
+
+- [Cloudlab EE Scheduler Benchmarking Profile](#cloudlab-ee-scheduler-benchmarking-profile)
+- [TODOs](#todos)
+- [Cheatsheet](#cheatsheet)
+- [Grafana Dashboard](#grafana-dashboard)
+  - [Modify Grafana Dashboard](#modify-grafana-dashboard)
+- [Known issues](#known-issues)
+  - [Late Node Provisioning](#late-node-provisioning)
+  - [Multiple results for power watts](#multiple-results-for-power-watts)
 
 # TODOs
 
@@ -16,15 +29,31 @@ See ['kubeInstructions' of profile.py](profile.py).
 adding +x permissions on windows git (for sh files)
 
    git update-index --chmod=+x setup-file.sh
+   kubectl get pods --all-namespaces -o wide --field-selector spec.nodeName=<node-X>
 
-## Grafana Dashboards
+# Grafana Dashboard
 
-Export JSON from Web-GUI and minify using two regexp replacements onto the string:
+Deploys [custom dashboards](./custom-grafana-dashboards.yaml).
 
-`^\s+` with `<nothing>` and `\n` with `<nothing>`
+## Modify Grafana Dashboard
 
+Modify Grafana Dashboard in WEB-GUI, export JSON and minify the result string using two regexp replacements:
+
+1. Replace `^\s+` with `''`
+2. Replace `\n` with `''`
+3. Wrap the resulting one-liner with single `'`quotes`'` and replace the data inside the yaml file.
 
 # Known issues
+
+## Late Node Provisioning
+
+Behavior MAY already be fixed through a wait-script:
+
+In rare cases nodes may be provided too late for the automatic setup scripts on node-0 to run.
+
+In those cases it is possible to run the ansible script manually as described in the `profile instructions`.
+
+*NOTE: When manually running the script it may stop and intransparently prompt you to enter 'yes' (x times) to add the now discovered hosts to your trusted list*
 
 ## Multiple results for power watts
 
