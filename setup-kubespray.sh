@@ -154,48 +154,6 @@ node_labels={"benchmarking-node":true}
 node_taints=["benchmarking=true:NoSchedule"]
 EOF
 
-if [ $NODECOUNT -eq 1 ]; then
-    # We cannot use localhost; we have to use a dummy device, and that
-    # works fine.  We need to fix things up because there is nothing in
-    # /etc/hosts, nor have ssh keys been scanned and placed in
-    # known_hosts.
-    ip=`getnodeip $HEAD $MGMTLAN`
-    nm=`getnetmask $MGMTLAN`
-    prefix=`netmask2prefix $nm`
-    cidr=$ip/$prefix
-    echo "$ip $HEAD $HEAD-$MGMTLAN" | $SUDO tee -a /etc/hosts
-    $SUDO ip link add type dummy name dummy0
-    $SUDO ip addr add $cidr dev dummy0
-    $SUDO ip link set dummy0 up
-    DISTRIB_MAJOR=`. /etc/lsb-release && echo $DISTRIB_RELEASE | cut -d. -f1`
-    if [ $DISTRIB_MAJOR -lt 18 ]; then
-	cat <<EOF | $SUDO tee /etc/network/interfaces.d/kube-single-node.conf
-auto dummy0
-iface dummy0 inet static
-    address $cidr
-    pre-up ip link add dummy0 type dummy
-EOF
-    else
-	cat <<EOF | $SUDO tee /etc/systemd/network/dummy0.netdev
-[NetDev]
-Name=dummy0
-Kind=dummy
-EOF
-	cat <<EOF | $SUDO tee /etc/systemd/network/dummy0.network
-[Match]
-Name=dummy0
-
-[Network]
-DHCP=no
-Address=$cidr
-IPForward=yes
-EOF
-    fi
-
-    ssh-keyscan $HEAD >> ~/.ssh/known_hosts
-    ssh-keyscan $ip >> ~/.ssh/known_hosts
-fi
-
 #
 # Get our basic configuration into place.
 #
