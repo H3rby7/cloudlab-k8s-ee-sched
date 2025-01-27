@@ -141,8 +141,8 @@ kube-master
 kube-node
 EOF
 
-# The last 3--N nodes used for the benchmarking
-benchmarknodecount=3
+# Starting with node 4: usable for the benchmarking
+benchmarknodecount=4
 echo '[benchmarking-node]' >> $INV
 for node in `echo $NODES | cut -d ' ' -f${benchmarknodecount}-` ; do
     echo "$node" >> $INV
