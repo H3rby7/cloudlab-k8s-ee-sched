@@ -150,7 +150,7 @@ done
 
 cat <<EOF >> $INV
 [benchmarking-node:vars]
-node_labels={"benchmarking":"yes"}
+node_labels={"node-role.kubernetes.io/benchmarking":""}
 node_taints=["benchmarking=yes:NoSchedule"]
 EOF
 
