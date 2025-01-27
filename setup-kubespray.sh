@@ -150,8 +150,8 @@ done
 
 cat <<EOF >> $INV
 [benchmarking-node:vars]
-node_labels={"benchmarking":true}
-node_taints=["benchmarking=true:NoSchedule"]
+node_labels={"benchmarking":"yes"}
+node_taints=["benchmarking=yes:NoSchedule"]
 EOF
 
 #
