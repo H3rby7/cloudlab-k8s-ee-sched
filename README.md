@@ -8,13 +8,21 @@ Forked cloudlab-profile from:  https://gitlab.flux.utah.edu/johnsond/k8s-profile
 
 See ['kubeInstructions' of profile.py](profile.py).
 
+Cluster contents:
+
+Nodename   | Purpose
+---        | ---
+node-0     | control_plane and sets up Kubernetes
+node-1     | control_plane
+node-2     | observer (hosts everything that belongs to a worker node and ist not a service-cell)
+node-3 ... | benchmarking (only runs required daemonsets and service-cells)
+
 - [Cloudlab EE Scheduler Benchmarking Profile](#cloudlab-ee-scheduler-benchmarking-profile)
 - [TODOs](#todos)
 - [Cheatsheet](#cheatsheet)
 - [Grafana Dashboard](#grafana-dashboard)
   - [Modify Grafana Dashboard](#modify-grafana-dashboard)
 - [Known issues](#known-issues)
-  - [Late Node Provisioning](#late-node-provisioning)
   - [Multiple results for power watts](#multiple-results-for-power-watts)
 
 # TODOs
@@ -44,16 +52,6 @@ Modify Grafana Dashboard in WEB-GUI, export JSON and minify the result string us
 3. Wrap the resulting one-liner with single `'`quotes`'` and replace the data inside the yaml file.
 
 # Known issues
-
-## Late Node Provisioning
-
-Behavior MAY already be fixed through a wait-script:
-
-In rare cases nodes may be provided too late for the automatic setup scripts on node-0 to run.
-
-In those cases it is possible to run the ansible script manually as described in the `profile instructions`.
-
-*NOTE: When manually running the script it may stop and intransparently prompt you to enter 'yes' (x times) to add the now discovered hosts to your trusted list*
 
 ## Multiple results for power watts
 

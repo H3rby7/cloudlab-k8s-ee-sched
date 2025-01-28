@@ -7,6 +7,7 @@ ln -s /local/logs/setup.log /local/setup/setup-driver.log
 
 ALLNODESCRIPTS="setup-ssh.sh setup-disk-space.sh setup-ipmi.sh"
 HEADNODESCRIPTS="setup-nfs-server.sh setup-nginx.sh setup-ssl.sh setup-kubespray.sh setup-kubernetes-extra.sh setup-metrics.sh setup-end.sh"
+OBSERVERNODESCRIPTS="setup-dataset.sh"
 WORKERNODESCRIPTS="setup-nfs-client.sh"
 
 export SRC=`dirname $0`
@@ -58,6 +59,17 @@ if [ "$HOSTNAME" = "node-0" ]; then
     done
 else
     for script in $WORKERNODESCRIPTS ; do
+	cd $SRC
+	$SRC/$script | tee - /local/logs/${script}.log 2>&1
+	if [ ! $PIPESTATUS -eq 0 ]; then
+	    echo "ERROR: ${script} failed; aborting driver!"
+	    exit 1
+	fi
+    done
+fi
+
+if [ "$HOSTNAME" = "node-2" ]; then
+    for script in $OBSERVERNODESCRIPTS ; do
 	cd $SRC
 	$SRC/$script | tee - /local/logs/${script}.log 2>&1
 	if [ ! $PIPESTATUS -eq 0 ]; then
