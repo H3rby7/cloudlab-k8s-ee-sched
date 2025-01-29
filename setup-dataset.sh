@@ -17,12 +17,34 @@ fi
 
 logtstart "dataset"
 
+echo "Setting up '/dataset' directory with input data"
+
 $SUDO mkdir -p /dataset
 $SUDO chmod 777 /dataset
-# TODO: when working, use specific REF rather than the main branch
-$SUDO wget -O traces.csv https://github.com/H3rby7/cloudlab-k8s-ee-sched-data/raw/refs/heads/main/2774/sampled_traces.csv
+
+# TODO: Use specific REF rather than the main branch
+base_url="https://github.com/H3rby7/cloudlab-k8s-ee-sched-data/raw/refs/heads/main/2774"
+
+echo "Getting traces..."
+$SUDO wget -O traces.csv "${base_url}/sampled_traces.csv"
 $SUDO mv traces.csv /dataset/
+
+echo "Getting deployment_ts..."
+$SUDO wget -O deployment_ts.csv "${base_url}/deployment_ts.csv"
+$SUDO mv deployment_ts.csv /dataset/
+
+echo "Getting service_graphs..."
+$SUDO wget -O service_graphs.json "${base_url}/service_graphs.json"
+$SUDO mv service_graphs.json /dataset/
+
 $SUDO ls -al /dataset/
+
+echo "Setting up '/result' directory"
+
+$SUDO mkdir -p /result
+$SUDO chmod 777 /result
+
+$SUDO ls -al /result/
 
 logtend "dataset"
 
