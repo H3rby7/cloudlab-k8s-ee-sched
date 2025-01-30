@@ -1,8 +1,8 @@
 #!/bin/sh
 
 ##
-## Get input dataset from github and make it available as 
-## /dataset/traces.csv
+## Get input dataset from github and make it available at
+## /dataset
 ##
 
 set -x
