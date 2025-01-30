@@ -26,11 +26,11 @@ $SUDO chmod 777 /dataset
 base_url="https://github.com/H3rby7/cloudlab-k8s-ee-sched-data/raw/refs/heads/main/2774"
 
 echo "Getting traces..."
-$SUDO wget -O traces.csv "${base_url}/sampled_traces.csv"
+$SUDO wget -O traces.csv "${base_url}/sampled_traces.tsv"
 $SUDO mv traces.csv /dataset/
 
 echo "Getting deployment_ts..."
-$SUDO wget -O deployment_ts.csv "${base_url}/deployment_ts.csv"
+$SUDO wget -O deployment_ts.csv "${base_url}/deployment_ts.tsv"
 $SUDO mv deployment_ts.csv /dataset/
 
 echo "Getting service_graphs..."
