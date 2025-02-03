@@ -10,6 +10,7 @@ Cloudlab Wisconsin  | [c220g1](https://www.wisc.cloudlab.us/portal/show-nodetype
 Cloudlab Wisconsin  | [c220g2](https://www.wisc.cloudlab.us/portal/show-nodetype.php?type=c220g2)  | dynamic | `PSU1 PIN, [POWER USAGE, PSU1 POUT]`
 Cloudlab Wisconsin  | [c220g5](https://www.wisc.cloudlab.us/portal/show-nodetype.php?type=c220g5)  | dynamic | `PSU1 POUT, [POWER USAGE, PSU1 PIN]`
 Cloudlab Clemson    | [r6525](https://www.clemson.cloudlab.us/portal/show-nodetype.php?type=r6525) | dynamic | `Pwr Consumption`
+Cloudlab Clemson    | [r650](https://www.clemson.cloudlab.us/portal/show-nodetype.php?type=r650)   | probably | `Pwr Consumption`
 Cloudlab Utah       | [m400](https://www.utah.cloudlab.us/portal/show-nodetype.php?type=m400)      | none    | ipmitools do not work
 Cloudlab Utah       | [m510](https://www.utah.cloudlab.us/portal/show-nodetype.php?type=m510)      | none    | ipmitools have no power related info
 Cloudlab Utah       | [xl170](https://www.utah.cloudlab.us/portal/show-nodetype.php?type=xl170)    | static  | `[Power Supply 1, Power Supply 2, PS 1 Output, PS 2 Output]`
