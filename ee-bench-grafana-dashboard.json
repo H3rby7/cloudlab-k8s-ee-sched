@@ -1139,13 +1139,13 @@
     ]
   },
   "time": {
-    "from": "now-1h",
-    "to": "now"
+    "from": "now-2h",
+    "to": "now-1h"
   },
   "timepicker": {},
   "timezone": "browser",
-  "title": "ee-bench Copy",
-  "uid": "dec25w4xfwdmoe",
-  "version": 6,
+  "title": "ee-bench",
+  "uid": "eeayt2o0nyq68b",
+  "version": 9,
   "weekStart": ""
 }
