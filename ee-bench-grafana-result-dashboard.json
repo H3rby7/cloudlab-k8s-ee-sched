@@ -53,7 +53,7 @@
       },
       "gridPos": {
         "h": 4,
-        "w": 4,
+        "w": 7,
         "x": 0,
         "y": 0
       },
@@ -113,6 +113,100 @@
     {
       "datasource": {
         "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "description": "Compared to trace time",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "percentage",
+            "steps": [
+              {
+                "color": "text",
+                "value": null
+              },
+              {
+                "color": "green",
+                "value": 100
+              },
+              {
+                "color": "#EAB839",
+                "value": 105
+              },
+              {
+                "color": "red",
+                "value": 110
+              }
+            ]
+          },
+          "unit": "percentunit"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 7,
+        "x": 7,
+        "y": 0
+      },
+      "id": 22,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [],
+          "fields": "/^TIME_FACTOR \\{container=\"runner\", endpoint=\"metrics\", experiment_id=\"2025\\-02\\-04_21\\-55\\-25\", instance=\"192\\.168\\.1\\.72:8080\", job=\"default/cloud\\-ee\\-benchmarking\", namespace=\"default\", pod=\"cloud\\-ee\\-benchmarking\\-mr8vg\"\\}$/",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "11.4.1",
+      "targets": [
+        {
+          "editorMode": "code",
+          "expr": "mub_experiment_finished_time_estimated_seconds - mub_experiment_start_time_traces_seconds",
+          "legendFormat": "ESTIMATE",
+          "range": true,
+          "refId": "ESTIMATE"
+        },
+        {
+          "datasource": {
+            "name": "Expression",
+            "type": "__expr__",
+            "uid": "__expr__"
+          },
+          "expression": "(${__to} - ${__from})/1000",
+          "hide": false,
+          "refId": "ACTUAL",
+          "type": "math"
+        },
+        {
+          "datasource": {
+            "name": "Expression",
+            "type": "__expr__",
+            "uid": "__expr__"
+          },
+          "expression": "${ACTUAL} / ${ESTIMATE}",
+          "hide": false,
+          "refId": "TIME_FACTOR",
+          "type": "math"
+        }
+      ],
+      "title": "Time Taken",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
         "uid": "${ds}"
       },
       "fieldConfig": {
@@ -138,9 +232,9 @@
       },
       "gridPos": {
         "h": 4,
-        "w": 5,
-        "x": 4,
-        "y": 0
+        "w": 7,
+        "x": 0,
+        "y": 4
       },
       "id": 20,
       "interval": "10s",
@@ -208,8 +302,8 @@
       "gridPos": {
         "h": 4,
         "w": 7,
-        "x": 9,
-        "y": 0
+        "x": 7,
+        "y": 4
       },
       "id": 21,
       "options": {
