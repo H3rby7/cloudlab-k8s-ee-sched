@@ -1,0 +1,1151 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 26,
+  "links": [],
+  "panels": [
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 12,
+      "panels": [],
+      "title": "Experiment META",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "fixed"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "string"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 6,
+        "x": 0,
+        "y": 1
+      },
+      "id": 7,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "/^TS$/",
+          "values": true
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "11.4.1",
+      "targets": [
+        {
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "mub_experiment_start_time_deployments_seconds * 1000",
+          "format": "time_series",
+          "instant": true,
+          "legendFormat": "TS",
+          "range": false,
+          "refId": "Time"
+        }
+      ],
+      "title": "START Deployments",
+      "transformations": [
+        {
+          "id": "convertFieldType",
+          "options": {
+            "conversions": [
+              {
+                "destinationType": "time",
+                "targetField": "TS"
+              }
+            ],
+            "fields": {}
+          }
+        }
+      ],
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "fixed"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "string"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 6,
+        "x": 6,
+        "y": 1
+      },
+      "id": 8,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "/^TS$/",
+          "values": true
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "11.4.1",
+      "targets": [
+        {
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "mub_experiment_start_time_traces_seconds * 1000",
+          "format": "time_series",
+          "instant": true,
+          "legendFormat": "TS",
+          "range": false,
+          "refId": "Time"
+        }
+      ],
+      "title": "START TRACES",
+      "transformations": [
+        {
+          "id": "filterByValue",
+          "options": {
+            "filters": [
+              {
+                "config": {
+                  "id": "lower",
+                  "options": {
+                    "value": "1"
+                  }
+                },
+                "fieldName": "TS"
+              }
+            ],
+            "match": "all",
+            "type": "exclude"
+          }
+        },
+        {
+          "id": "convertFieldType",
+          "options": {
+            "conversions": [
+              {
+                "destinationType": "time",
+                "targetField": "TS"
+              }
+            ],
+            "fields": {}
+          }
+        }
+      ],
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "fixed"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "string"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 6,
+        "x": 12,
+        "y": 1
+      },
+      "id": 9,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "/^TS$/",
+          "values": true
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "11.4.1",
+      "targets": [
+        {
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "mub_experiment_finished_time_estimated_seconds * 1000",
+          "format": "time_series",
+          "instant": true,
+          "legendFormat": "TS",
+          "range": false,
+          "refId": "Time"
+        }
+      ],
+      "title": "END ESTIMATE",
+      "transformations": [
+        {
+          "id": "filterByValue",
+          "options": {
+            "filters": [
+              {
+                "config": {
+                  "id": "lower",
+                  "options": {
+                    "value": "1"
+                  }
+                },
+                "fieldName": "TS"
+              }
+            ],
+            "match": "all",
+            "type": "exclude"
+          }
+        },
+        {
+          "id": "convertFieldType",
+          "options": {
+            "conversions": [
+              {
+                "destinationType": "time",
+                "targetField": "TS"
+              }
+            ],
+            "fields": {}
+          }
+        }
+      ],
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "fixed"
+          },
+          "mappings": [],
+          "noValue": "Still Running",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "string"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 6,
+        "x": 18,
+        "y": 1
+      },
+      "id": 10,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "/^TS$/",
+          "values": true
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "11.4.1",
+      "targets": [
+        {
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "mub_experiment_finished_time_seconds * 1000",
+          "format": "time_series",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "TS",
+          "range": false,
+          "refId": "Time"
+        }
+      ],
+      "title": "END FINISHED",
+      "transformations": [
+        {
+          "id": "filterByValue",
+          "options": {
+            "filters": [
+              {
+                "config": {
+                  "id": "lower",
+                  "options": {
+                    "value": "1"
+                  }
+                },
+                "fieldName": "TS"
+              }
+            ],
+            "match": "all",
+            "type": "exclude"
+          }
+        },
+        {
+          "id": "convertFieldType",
+          "options": {
+            "conversions": [
+              {
+                "destinationType": "time",
+                "targetField": "TS"
+              }
+            ],
+            "fields": {}
+          }
+        }
+      ],
+      "type": "stat"
+    },
+    {
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 4
+      },
+      "id": 14,
+      "panels": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "continuous-greens"
+              },
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "percentage",
+                "steps": [
+                  {
+                    "color": "blue"
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 4,
+            "w": 4,
+            "x": 0,
+            "y": 4
+          },
+          "id": 13,
+          "options": {
+            "minVizHeight": 75,
+            "minVizWidth": 75,
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "/^sum\\(mub_deployed_services_total\\)$/",
+              "values": false
+            },
+            "showThresholdLabels": false,
+            "showThresholdMarkers": false,
+            "sizing": "auto"
+          },
+          "pluginVersion": "11.4.1",
+          "targets": [
+            {
+              "editorMode": "code",
+              "expr": "sum(mub_deployed_services_total)",
+              "legendFormat": "__auto",
+              "range": true,
+              "refId": "A"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "editorMode": "code",
+              "expr": "mub_experiment_ms_count",
+              "hide": false,
+              "instant": false,
+              "legendFormat": "__auto",
+              "range": true,
+              "refId": "B"
+            }
+          ],
+          "title": "Deployed MS",
+          "type": "gauge"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "continuous-greens"
+              },
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "percentage",
+                "steps": [
+                  {
+                    "color": "blue"
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 4,
+            "w": 4,
+            "x": 4,
+            "y": 4
+          },
+          "id": 15,
+          "options": {
+            "minVizHeight": 75,
+            "minVizWidth": 75,
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "/^\\{__name__=\"mub_processed_requests_total\", container=\"runner\", endpoint=\"metrics\", instance=\"192\\.168\\.1\\.77:8080\", job=\"default/cloud\\-ee\\-benchmarking\", namespace=\"default\", pod=\"cloud\\-ee\\-benchmarking\\-rmbmg\"\\}$/",
+              "values": false
+            },
+            "showThresholdLabels": false,
+            "showThresholdMarkers": false,
+            "sizing": "auto"
+          },
+          "pluginVersion": "11.4.1",
+          "targets": [
+            {
+              "editorMode": "code",
+              "expr": "mub_processed_requests_total",
+              "legendFormat": "__auto",
+              "range": true,
+              "refId": "A"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "editorMode": "code",
+              "expr": "mub_experiment_trace_count",
+              "hide": false,
+              "instant": false,
+              "legendFormat": "__auto",
+              "range": true,
+              "refId": "B"
+            }
+          ],
+          "title": "Processed Requests",
+          "type": "gauge"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "fixedColor": "#808080",
+                "mode": "thresholds"
+              },
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "blue"
+                  },
+                  {
+                    "color": "#EAB839",
+                    "value": 5
+                  },
+                  {
+                    "color": "red",
+                    "value": 10
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 4,
+            "w": 4,
+            "x": 8,
+            "y": 4
+          },
+          "id": 16,
+          "options": {
+            "minVizHeight": 75,
+            "minVizWidth": 75,
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "/^\\{__name__=\"mub_pending_requests\", container=\"runner\", endpoint=\"metrics\", instance=\"192\\.168\\.1\\.77:8080\", job=\"default/cloud\\-ee\\-benchmarking\", namespace=\"default\", pod=\"cloud\\-ee\\-benchmarking\\-rmbmg\"\\}$/",
+              "values": false
+            },
+            "showThresholdLabels": false,
+            "showThresholdMarkers": false,
+            "sizing": "auto"
+          },
+          "pluginVersion": "11.4.1",
+          "targets": [
+            {
+              "editorMode": "code",
+              "expr": "mub_pending_requests",
+              "legendFormat": "__auto",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "Pending Requests",
+          "type": "gauge"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "continuous-GrYlRd"
+              },
+              "mappings": [],
+              "min": 0,
+              "thresholds": {
+                "mode": "percentage",
+                "steps": [
+                  {
+                    "color": "blue"
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 4,
+            "w": 4,
+            "x": 12,
+            "y": 4
+          },
+          "id": 17,
+          "options": {
+            "minVizHeight": 75,
+            "minVizWidth": 75,
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "/^\\{__name__=\"mub_timing_error_requests_total\", container=\"runner\", endpoint=\"metrics\", instance=\"192\\.168\\.1\\.77:8080\", job=\"default/cloud\\-ee\\-benchmarking\", namespace=\"default\", pod=\"cloud\\-ee\\-benchmarking\\-rmbmg\"\\}$/",
+              "values": false
+            },
+            "showThresholdLabels": false,
+            "showThresholdMarkers": false,
+            "sizing": "auto"
+          },
+          "pluginVersion": "11.4.1",
+          "targets": [
+            {
+              "editorMode": "code",
+              "expr": "mub_timing_error_requests_total",
+              "legendFormat": "__auto",
+              "range": true,
+              "refId": "A"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "editorMode": "code",
+              "expr": "mub_experiment_trace_count",
+              "hide": false,
+              "instant": false,
+              "legendFormat": "__auto",
+              "range": true,
+              "refId": "B"
+            }
+          ],
+          "title": "Request Timing Errors",
+          "type": "gauge"
+        }
+      ],
+      "title": "Progress",
+      "type": "row"
+    },
+    {
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 5
+      },
+      "id": 11,
+      "panels": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${ds}"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisBorderShow": false,
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "barWidthFactor": 0.6,
+                "drawStyle": "line",
+                "fillOpacity": 0,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "insertNulls": false,
+                "lineInterpolation": "smooth",
+                "lineWidth": 1,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "auto",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "fieldMinMax": false,
+              "mappings": [
+                {
+                  "options": {
+                    "10.10.1.1:9100": {
+                      "index": 0,
+                      "text": "a"
+                    }
+                  },
+                  "type": "value"
+                }
+              ],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  }
+                ]
+              },
+              "unit": "watt"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 5,
+            "w": 24,
+            "x": 0,
+            "y": 20
+          },
+          "id": 4,
+          "interval": "10s",
+          "options": {
+            "legend": {
+              "calcs": [],
+              "displayMode": "list",
+              "placement": "right",
+              "showLegend": true,
+              "width": 250
+            },
+            "tooltip": {
+              "mode": "single",
+              "sort": "none"
+            }
+          },
+          "pluginVersion": "11.4.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${ds}"
+              },
+              "editorMode": "code",
+              "expr": "node_ipmi_power_watts{node_name=~\"$no\", sensor=~\"$sensor\"}",
+              "interval": "",
+              "legendFormat": "{{node_name}} {{sensor}}",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "Power Constumption (Watt)",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${ds}"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisBorderShow": false,
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "barWidthFactor": 0.6,
+                "drawStyle": "line",
+                "fillOpacity": 0,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "insertNulls": false,
+                "lineInterpolation": "linear",
+                "lineWidth": 1,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "auto",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 5,
+            "w": 24,
+            "x": 0,
+            "y": 25
+          },
+          "id": 5,
+          "interval": "10",
+          "options": {
+            "legend": {
+              "calcs": [],
+              "displayMode": "list",
+              "placement": "right",
+              "showLegend": true,
+              "width": 250
+            },
+            "tooltip": {
+              "mode": "single",
+              "sort": "none"
+            }
+          },
+          "pluginVersion": "11.4.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${ds}"
+              },
+              "editorMode": "code",
+              "expr": "rate(container_cpu_usage_seconds_total{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", namespace=~\"$ns\", node=~\"$no\"}[30s])",
+              "interval": "1m",
+              "legendFormat": "{{pod}}",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "CPU Usage",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${ds}"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisBorderShow": false,
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "barWidthFactor": 0.6,
+                "drawStyle": "line",
+                "fillOpacity": 0,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "insertNulls": false,
+                "lineInterpolation": "linear",
+                "lineWidth": 1,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "auto",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              },
+              "unit": "bytes"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 5,
+            "w": 24,
+            "x": 0,
+            "y": 30
+          },
+          "id": 1,
+          "options": {
+            "legend": {
+              "calcs": [],
+              "displayMode": "list",
+              "placement": "right",
+              "showLegend": true,
+              "width": 250
+            },
+            "tooltip": {
+              "mode": "single",
+              "sort": "none"
+            }
+          },
+          "pluginVersion": "11.4.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${ds}"
+              },
+              "editorMode": "code",
+              "expr": "sum(container_memory_working_set_bytes{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", cluster=\"\", namespace=~\"$ns\", node=~\"$no\"}) by (pod)",
+              "interval": "1m",
+              "legendFormat": "__auto",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "Memory Usage (w/o cache)",
+          "type": "timeseries"
+        }
+      ],
+      "repeat": "no",
+      "title": "$no",
+      "type": "row"
+    }
+  ],
+  "preload": false,
+  "refresh": "10s",
+  "schemaVersion": 40,
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "text": "Prometheus",
+          "value": "prometheus"
+        },
+        "description": "",
+        "label": "datasource",
+        "name": "ds",
+        "options": [],
+        "query": "prometheus",
+        "refresh": 1,
+        "regex": "",
+        "type": "datasource"
+      },
+      {
+        "current": {
+          "text": [
+            "node-3",
+            "node-4",
+            "node-5"
+          ],
+          "value": [
+            "node-3",
+            "node-4",
+            "node-5"
+          ]
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${ds}"
+        },
+        "definition": "label_values(kube_node_info,node)",
+        "description": "",
+        "includeAll": true,
+        "label": "node",
+        "multi": true,
+        "name": "no",
+        "options": [],
+        "query": {
+          "qryType": 1,
+          "query": "label_values(kube_node_info,node)",
+          "refId": "PrometheusVariableQueryEditor-VariableQuery"
+        },
+        "refresh": 1,
+        "regex": "",
+        "type": "query"
+      },
+      {
+        "current": {
+          "text": [
+            "mubench"
+          ],
+          "value": [
+            "mubench"
+          ]
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${ds}"
+        },
+        "definition": "label_values(kube_namespace_status_phase{job=\"kube-state-metrics\"},namespace)",
+        "description": "",
+        "includeAll": true,
+        "label": "namespace",
+        "multi": true,
+        "name": "ns",
+        "options": [],
+        "query": {
+          "qryType": 1,
+          "query": "label_values(kube_namespace_status_phase{job=\"kube-state-metrics\"},namespace)",
+          "refId": "PrometheusVariableQueryEditor-VariableQuery"
+        },
+        "refresh": 1,
+        "regex": "",
+        "sort": 1,
+        "type": "query"
+      },
+      {
+        "current": {
+          "text": [
+            "POWER_USAGE"
+          ],
+          "value": [
+            "POWER_USAGE"
+          ]
+        },
+        "definition": "label_values(node_ipmi_power_watts,sensor)",
+        "label": "Sensor",
+        "multi": true,
+        "name": "sensor",
+        "options": [],
+        "query": {
+          "qryType": 1,
+          "query": "label_values(node_ipmi_power_watts,sensor)",
+          "refId": "PrometheusVariableQueryEditor-VariableQuery"
+        },
+        "refresh": 1,
+        "regex": "",
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-1h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "browser",
+  "title": "ee-bench Copy",
+  "uid": "dec25w4xfwdmoe",
+  "version": 6,
+  "weekStart": ""
+}
