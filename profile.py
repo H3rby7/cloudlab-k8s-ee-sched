@@ -161,7 +161,7 @@ pc.defineParameter(
     advanced=True)
 pc.defineParameter(
     "sslCertType","SSL Certificate Type",
-    portal.ParameterType.STRING,"letsencrypt",
+    portal.ParameterType.STRING,"none",
     [("none","None"),("self","Self-Signed"),("letsencrypt","Let's Encrypt")],
     advanced=True,
     longDescription="Choose an SSL Certificate strategy.  By default, we generate self-signed certificates, and only use them for a reverse web proxy to allow secure remote access to the Kubernetes Dashboard.  However, you may choose `None` if you prefer to arrange remote access differently (e.g. ssh port forwarding).  You may also choose to use Let's Encrypt certificates whose trust root is accepted by all modern browsers.")
@@ -173,8 +173,8 @@ pc.defineParameter(
     longDescription="Choose where you want the SSL certificates deployed.  Currently the only option is for them to be configured as part of the web proxy to the dashboard.")
 pc.defineParameter(
     "doNFS","Enable NFS",
-    portal.ParameterType.BOOLEAN,True,
-    longDescription="We enable NFS by default, to be used by persistent volumes in Kubernetes services.",
+    portal.ParameterType.BOOLEAN,False,
+    longDescription="NFS can be used by persistent volumes in Kubernetes services.",
     advanced=True)
 pc.defineParameter(
     "nfsAsync","Export NFS volume async",
