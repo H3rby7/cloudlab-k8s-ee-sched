@@ -984,6 +984,208 @@
     {
       "datasource": {
         "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "ms"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 24,
+        "x": 0,
+        "y": 22
+      },
+      "id": 22,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "right",
+          "showLegend": true,
+          "width": 250
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "11.4.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "editorMode": "code",
+          "exemplar": true,
+          "expr": "sum by (pod) (increase(mub_request_processing_latency_milliseconds_sum{node=~\"$no\", namespace=~\"$ns\"}[2m])) / sum by (pod) (increase(mub_request_processing_latency_milliseconds_count{node=~\"$no\", namespace=~\"$ns\"}[2m]))",
+          "interval": "",
+          "legendFormat": "{{pod}}",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Service delay",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "ms"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 24,
+        "x": 0,
+        "y": 27
+      },
+      "id": 23,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "right",
+          "showLegend": true,
+          "width": 250
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "11.4.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "editorMode": "code",
+          "exemplar": true,
+          "expr": "sum by (pod) (increase(mub_internal_processing_latency_milliseconds_sum{node=~\"$no\", namespace=~\"$ns\"}[2m])) / sum by (pod) (increase(mub_internal_processing_latency_milliseconds_sum{node=~\"$no\", namespace=~\"$ns\"}[2m]))",
+          "interval": "",
+          "legendFormat": "{{pod}}",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Internal Service delay",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
         "uid": "${ds}"
       },
       "fieldConfig": {
@@ -1045,7 +1247,7 @@
         "h": 5,
         "w": 24,
         "x": 0,
-        "y": 22
+        "y": 32
       },
       "id": 5,
       "interval": "10",
@@ -1145,7 +1347,7 @@
         "h": 5,
         "w": 24,
         "x": 0,
-        "y": 27
+        "y": 37
       },
       "id": 1,
       "options": {
@@ -1305,8 +1507,8 @@
       },
       {
         "current": {
-          "text": "",
-          "value": ""
+          "text": "1738710745720.487",
+          "value": "1738710745720.487"
         },
         "definition": "query_result(max(mub_experiment_finished_time_seconds*1000))",
         "description": "",
@@ -1346,6 +1548,7 @@
           "value": "ee-bench-results"
         },
         "description": "Title of the result dashboard, required to build URL to that dashboard",
+        "hide": 2,
         "name": "result_dash_title",
         "options": [
           {
@@ -1363,6 +1566,7 @@
           "value": "aec2zsgqtnuo0e"
         },
         "description": "UID of the result dashboard, required to build URL to that dashboard",
+        "hide": 2,
         "name": "result_dash_uid",
         "options": [
           {
@@ -1384,6 +1588,6 @@
   "timezone": "utc",
   "title": "ee-bench",
   "uid": "eeayt2o0nyq68b",
-  "version": 2,
+  "version": 3,
   "weekStart": ""
 }
