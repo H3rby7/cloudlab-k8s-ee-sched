@@ -24,6 +24,7 @@ node-3 ... | benchmarking (only runs required daemonsets and service-cells)
   - [Modify Grafana Dashboard](#modify-grafana-dashboard)
 - [Limitations](#limitations)
 - [Known issues](#known-issues)
+- [Improvements](#improvements)
 
 # TODOs
 
@@ -56,3 +57,8 @@ Modify Grafana Dashboard in WEB-GUI, export JSON and minify the result string us
 * Node restart seems to be unsupported with the setup
 
 # Known issues
+
+# Improvements
+
+* examine: can we remove 'nginx-proxy' pods on benchmark nodes (since we do not necessarily need to route to ingresses there?)
+* Push CSV-Runner logs to Grafana via LOKI
