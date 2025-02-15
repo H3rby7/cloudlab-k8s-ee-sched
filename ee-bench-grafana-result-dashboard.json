@@ -24,24 +24,30 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${ds}"
       },
+      "description": "",
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "thresholds"
+            "mode": "continuous-GrYlRd"
           },
           "mappings": [],
+          "min": 0,
           "thresholds": {
-            "mode": "absolute",
+            "mode": "percentage",
             "steps": [
               {
-                "color": "text",
+                "color": "blue",
                 "value": null
+              },
+              {
+                "color": "red",
+                "value": 1
               }
             ]
           },
-          "unit": "watth"
+          "unit": "percentunit"
         },
         "overrides": []
       },
@@ -51,38 +57,50 @@
         "x": 0,
         "y": 0
       },
-      "id": 23,
+      "id": 17,
       "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "auto",
+        "minVizHeight": 75,
+        "minVizWidth": 75,
         "orientation": "auto",
-        "percentChangeColorMode": "standard",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "/^Wh$/",
+          "fields": "/^C$/",
           "values": false
         },
-        "showPercentChange": false,
-        "textMode": "auto",
-        "wideLayout": true
+        "showThresholdLabels": false,
+        "showThresholdMarkers": false,
+        "sizing": "auto"
       },
       "pluginVersion": "11.5.1",
       "targets": [
         {
-          "disableTextWrap": false,
-          "editorMode": "builder",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${ds}"
+          },
+          "editorMode": "code",
           "exemplar": false,
-          "expr": "sum(avg_over_time(node_ipmi_power_watts{sensor=~\"$sensor\", node_name!~\"node-0|node-1|node-2\"}[10s]))",
-          "fullMetaSearch": false,
-          "includeNullMetadata": true,
+          "expr": "max(mub_timing_error_requests_total)",
           "instant": true,
-          "legendFormat": "watt_avg {{node_name}}",
+          "legendFormat": "ERROR",
           "range": false,
-          "refId": "WATT",
-          "useBackend": false
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${ds}"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "max(mub_experiment_trace_count)",
+          "hide": false,
+          "instant": true,
+          "legendFormat": "ALL",
+          "range": false,
+          "refId": "B"
         },
         {
           "datasource": {
@@ -90,25 +108,15 @@
             "type": "__expr__",
             "uid": "__expr__"
           },
-          "expression": "(${__to} - ${__from})/1000/3600",
+          "expression": "$A / $B",
           "hide": false,
-          "refId": "DUR_HOUR",
-          "type": "math"
-        },
-        {
-          "datasource": {
-            "name": "Expression",
-            "type": "__expr__",
-            "uid": "__expr__"
-          },
-          "expression": "$DUR_HOUR * $WATT",
-          "hide": false,
-          "refId": "Wh",
+          "reducer": "mean",
+          "refId": "C",
           "type": "math"
         }
       ],
-      "title": "Energy Consumption",
-      "type": "stat"
+      "title": "Request Timing Errors",
+      "type": "gauge"
     },
     {
       "datasource": {
@@ -189,30 +197,24 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${ds}"
+        "uid": "prometheus"
       },
-      "description": "",
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "continuous-GrYlRd"
+            "mode": "thresholds"
           },
           "mappings": [],
-          "min": 0,
           "thresholds": {
-            "mode": "percentage",
+            "mode": "absolute",
             "steps": [
               {
-                "color": "blue",
+                "color": "text",
                 "value": null
-              },
-              {
-                "color": "red",
-                "value": 1
               }
             ]
           },
-          "unit": "percentunit"
+          "unit": "watth"
         },
         "overrides": []
       },
@@ -222,47 +224,38 @@
         "x": 0,
         "y": 4
       },
-      "id": 17,
+      "id": 23,
       "options": {
-        "minVizHeight": 75,
-        "minVizWidth": 75,
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
         "orientation": "auto",
+        "percentChangeColorMode": "standard",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "/^C$/",
+          "fields": "/^Wh$/",
           "values": false
         },
-        "showThresholdLabels": false,
-        "showThresholdMarkers": false,
-        "sizing": "auto"
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
       },
       "pluginVersion": "11.5.1",
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${ds}"
-          },
-          "editorMode": "code",
-          "expr": "max(mub_timing_error_requests_total)",
-          "legendFormat": "ERROR",
-          "range": true,
-          "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${ds}"
-          },
-          "editorMode": "code",
-          "expr": "max(mub_experiment_trace_count)",
-          "hide": false,
-          "instant": false,
-          "legendFormat": "ALL",
-          "range": true,
-          "refId": "B"
+          "disableTextWrap": false,
+          "editorMode": "builder",
+          "exemplar": false,
+          "expr": "sum(avg_over_time(node_ipmi_power_watts{sensor=~\"$sensor\", node_name!~\"node-0|node-1|node-2\"}[10s]))",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
+          "instant": true,
+          "legendFormat": "watt_avg {{node_name}}",
+          "range": false,
+          "refId": "WATT",
+          "useBackend": false
         },
         {
           "datasource": {
@@ -270,15 +263,25 @@
             "type": "__expr__",
             "uid": "__expr__"
           },
-          "expression": "$A / $B",
+          "expression": "(${__to} - ${__from})/1000/3600",
           "hide": false,
-          "reducer": "mean",
-          "refId": "C",
+          "refId": "DUR_HOUR",
+          "type": "math"
+        },
+        {
+          "datasource": {
+            "name": "Expression",
+            "type": "__expr__",
+            "uid": "__expr__"
+          },
+          "expression": "$DUR_HOUR * $WATT",
+          "hide": false,
+          "refId": "Wh",
           "type": "math"
         }
       ],
-      "title": "Request Timing Errors",
-      "type": "gauge"
+      "title": "Energy Consumption",
+      "type": "stat"
     },
     {
       "datasource": {
@@ -291,7 +294,7 @@
           "color": {
             "mode": "fixed"
           },
-          "decimals": 0,
+          "decimals": 3,
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
@@ -333,14 +336,163 @@
       "pluginVersion": "11.5.1",
       "targets": [
         {
-          "editorMode": "code",
-          "expr": "max(mub_request_latency_milliseconds_sum)",
+          "disableTextWrap": false,
+          "editorMode": "builder",
+          "exemplar": false,
+          "expr": "sum(mub_request_latency_milliseconds_sum) / 1000",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
+          "instant": true,
           "legendFormat": "__auto",
-          "range": true,
-          "refId": "A"
+          "range": false,
+          "refId": "A",
+          "useBackend": false
         }
       ],
-      "title": "Total Response Time millis",
+      "title": "Total Response Time (seconds)",
+      "type": "stat"
+    },
+    {
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 7,
+        "x": 0,
+        "y": 8
+      },
+      "id": 26,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "```\r\n            10,000,000\r\n--------------------------------------\r\nenergy * total response time (seconds)\r\n```",
+        "mode": "markdown"
+      },
+      "pluginVersion": "11.5.1",
+      "title": "Score Formula",
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "description": "10,000,000 / (energy * total response time seconds)",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "text",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 7,
+        "x": 7,
+        "y": 8
+      },
+      "id": 25,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "/^score$/",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "11.5.1",
+      "targets": [
+        {
+          "disableTextWrap": false,
+          "editorMode": "builder",
+          "exemplar": false,
+          "expr": "sum(avg_over_time(node_ipmi_power_watts{sensor=~\"$sensor\", node_name!~\"node-0|node-1|node-2\"}[10s]))",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
+          "instant": true,
+          "legendFormat": "watt_avg {{node_name}}",
+          "range": false,
+          "refId": "WATT",
+          "useBackend": false
+        },
+        {
+          "datasource": {
+            "name": "Expression",
+            "type": "__expr__",
+            "uid": "__expr__"
+          },
+          "expression": "(${__to} - ${__from})/1000/3600",
+          "hide": false,
+          "refId": "DUR_HOUR",
+          "type": "math"
+        },
+        {
+          "datasource": {
+            "name": "Expression",
+            "type": "__expr__",
+            "uid": "__expr__"
+          },
+          "expression": "$DUR_HOUR * $WATT",
+          "hide": false,
+          "refId": "Wh",
+          "type": "math"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "disableTextWrap": false,
+          "editorMode": "builder",
+          "exemplar": false,
+          "expr": "sum(mub_request_latency_milliseconds_sum) / 1000",
+          "fullMetaSearch": false,
+          "hide": false,
+          "includeNullMetadata": true,
+          "instant": true,
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "TRTseconds",
+          "useBackend": false
+        },
+        {
+          "datasource": {
+            "name": "Expression",
+            "type": "__expr__",
+            "uid": "__expr__"
+          },
+          "expression": "10000000 / (${Wh} * ${TRTseconds})",
+          "hide": false,
+          "refId": "score",
+          "type": "math"
+        }
+      ],
+      "title": "Score",
       "type": "stat"
     }
   ],
@@ -367,12 +519,8 @@
       {
         "allowCustomValue": false,
         "current": {
-          "text": [
-            "PSU1_PIN"
-          ],
-          "value": [
-            "PSU1_PIN"
-          ]
+          "text": "PSU1_PIN",
+          "value": "PSU1_PIN"
         },
         "datasource": {
           "type": "prometheus",
