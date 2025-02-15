@@ -102,7 +102,7 @@
         {
           "editorMode": "code",
           "exemplar": false,
-          "expr": "(max(mub_experiment_finished_time_seconds) - max(mub_experiment_start_time_traces_seconds)) / 60",
+          "expr": "(max(mub_experiment_finished_time_seconds{experiment_id=\"$experiment\"}) - max(mub_experiment_start_time_traces_seconds{experiment_id=\"$experiment\"})) / 60",
           "instant": false,
           "legendFormat": "TS",
           "range": true,
@@ -208,7 +208,7 @@
       "id": 7,
       "options": {
         "colorMode": "value",
-        "graphMode": "area",
+        "graphMode": "none",
         "justifyMode": "auto",
         "orientation": "auto",
         "percentChangeColorMode": "standard",
@@ -217,7 +217,7 @@
             "lastNotNull"
           ],
           "fields": "/^TS$/",
-          "values": true
+          "values": false
         },
         "showPercentChange": false,
         "textMode": "auto",
@@ -228,11 +228,11 @@
         {
           "editorMode": "code",
           "exemplar": false,
-          "expr": "max(mub_experiment_start_time_deployments_seconds) * 1000",
+          "expr": "max(mub_experiment_start_time_deployments_seconds{experiment_id=\"$experiment\"}) * 1000",
           "format": "time_series",
-          "instant": true,
+          "instant": false,
           "legendFormat": "TS",
-          "range": false,
+          "range": true,
           "refId": "Time"
         }
       ],
@@ -290,7 +290,7 @@
       "id": 8,
       "options": {
         "colorMode": "value",
-        "graphMode": "area",
+        "graphMode": "none",
         "justifyMode": "auto",
         "orientation": "auto",
         "percentChangeColorMode": "standard",
@@ -299,7 +299,7 @@
             "lastNotNull"
           ],
           "fields": "/^TS$/",
-          "values": true
+          "values": false
         },
         "showPercentChange": false,
         "textMode": "auto",
@@ -310,11 +310,11 @@
         {
           "editorMode": "code",
           "exemplar": false,
-          "expr": "max(mub_experiment_start_time_traces_seconds) * 1000",
+          "expr": "max(mub_experiment_start_time_traces_seconds{experiment_id=\"$experiment\"}) * 1000",
           "format": "time_series",
-          "instant": true,
+          "instant": false,
           "legendFormat": "TS",
-          "range": false,
+          "range": true,
           "refId": "Time"
         }
       ],
@@ -390,7 +390,7 @@
       "id": 9,
       "options": {
         "colorMode": "value",
-        "graphMode": "area",
+        "graphMode": "none",
         "justifyMode": "auto",
         "orientation": "auto",
         "percentChangeColorMode": "standard",
@@ -399,7 +399,7 @@
             "lastNotNull"
           ],
           "fields": "/^TS$/",
-          "values": true
+          "values": false
         },
         "showPercentChange": false,
         "textMode": "auto",
@@ -410,11 +410,11 @@
         {
           "editorMode": "code",
           "exemplar": false,
-          "expr": "max(mub_experiment_finished_time_estimated_seconds) * 1000",
+          "expr": "max(mub_experiment_finished_time_estimated_seconds{experiment_id=\"$experiment\"}) * 1000",
           "format": "time_series",
-          "instant": true,
+          "instant": false,
           "legendFormat": "TS",
-          "range": false,
+          "range": true,
           "refId": "Time"
         }
       ],
@@ -471,10 +471,6 @@
               {
                 "color": "green",
                 "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
               }
             ]
           },
@@ -491,7 +487,7 @@
       "id": 10,
       "options": {
         "colorMode": "value",
-        "graphMode": "area",
+        "graphMode": "none",
         "justifyMode": "auto",
         "orientation": "auto",
         "percentChangeColorMode": "standard",
@@ -500,7 +496,7 @@
             "lastNotNull"
           ],
           "fields": "/^TS$/",
-          "values": true
+          "values": false
         },
         "showPercentChange": false,
         "textMode": "auto",
@@ -511,12 +507,12 @@
         {
           "editorMode": "code",
           "exemplar": false,
-          "expr": "max(mub_experiment_finished_time_seconds) * 1000",
+          "expr": "max(mub_experiment_finished_time_seconds{experiment_id=\"$experiment\"}) * 1000",
           "format": "time_series",
-          "instant": true,
+          "instant": false,
           "interval": "",
           "legendFormat": "TS",
-          "range": false,
+          "range": true,
           "refId": "Time"
         }
       ],
@@ -619,7 +615,9 @@
       "targets": [
         {
           "editorMode": "code",
-          "expr": "sum(mub_deployed_services_total)",
+          "exemplar": false,
+          "expr": "sum(mub_deployed_services_total{experiment_id=\"$experiment\"})",
+          "instant": false,
           "legendFormat": "DEPLOYED",
           "range": true,
           "refId": "A"
@@ -630,7 +628,8 @@
             "uid": "prometheus"
           },
           "editorMode": "code",
-          "expr": "mub_experiment_ms_count",
+          "exemplar": false,
+          "expr": "mub_experiment_ms_count{experiment_id=\"$experiment\"}",
           "hide": false,
           "instant": false,
           "legendFormat": "ALL",
@@ -692,7 +691,9 @@
       "targets": [
         {
           "editorMode": "code",
-          "expr": "mub_processed_requests_total",
+          "exemplar": false,
+          "expr": "mub_processed_requests_total{experiment_id=\"$experiment\"}",
+          "instant": false,
           "legendFormat": "PROCESSED",
           "range": true,
           "refId": "A"
@@ -703,7 +704,8 @@
             "uid": "prometheus"
           },
           "editorMode": "code",
-          "expr": "mub_experiment_trace_count",
+          "exemplar": false,
+          "expr": "mub_experiment_trace_count{experiment_id=\"$experiment\"}",
           "hide": false,
           "instant": false,
           "legendFormat": "ALL",
@@ -774,7 +776,9 @@
       "targets": [
         {
           "editorMode": "code",
-          "expr": "mub_pending_requests",
+          "exemplar": false,
+          "expr": "mub_pending_requests{experiment_id=\"$experiment\"}",
+          "instant": false,
           "legendFormat": "PENDING",
           "range": true,
           "refId": "A"
@@ -796,6 +800,7 @@
           },
           "mappings": [],
           "min": 0,
+          "noValue": "0",
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -838,7 +843,9 @@
       "targets": [
         {
           "editorMode": "code",
-          "expr": "mub_timing_error_requests_total",
+          "exemplar": false,
+          "expr": "mub_timing_error_requests_total{experiment_id=\"$experiment\"}",
+          "instant": false,
           "legendFormat": "ERROR",
           "range": true,
           "refId": "A"
@@ -849,7 +856,8 @@
             "uid": "prometheus"
           },
           "editorMode": "code",
-          "expr": "mub_experiment_trace_count",
+          "exemplar": false,
+          "expr": "mub_experiment_trace_count{experiment_id=\"$experiment\"}",
           "hide": false,
           "instant": false,
           "legendFormat": "ALL",
@@ -1410,19 +1418,17 @@
       {
         "current": {
           "text": [
-            "node-3",
-            "node-4"
+            "All"
           ],
           "value": [
-            "node-3",
-            "node-4"
+            "$__all"
           ]
         },
         "datasource": {
           "type": "prometheus",
           "uid": "${ds}"
         },
-        "definition": "label_values(kube_node_info,node)",
+        "definition": "label_values(kube_node_info{node!~\"node-0|node-1|node-2\"},node)",
         "description": "",
         "includeAll": true,
         "label": "node",
@@ -1431,7 +1437,7 @@
         "options": [],
         "query": {
           "qryType": 1,
-          "query": "label_values(kube_node_info,node)",
+          "query": "label_values(kube_node_info{node!~\"node-0|node-1|node-2\"},node)",
           "refId": "PrometheusVariableQueryEditor-VariableQuery"
         },
         "refresh": 1,
@@ -1493,8 +1499,8 @@
       },
       {
         "current": {
-          "text": "1739622080339.8467",
-          "value": "1739622080339.8467"
+          "text": "1739648900796.06",
+          "value": "1739648900796.06"
         },
         "definition": "query_result(max(mub_experiment_start_time_traces_seconds*1000))",
         "description": "",
@@ -1511,39 +1517,43 @@
         "type": "query"
       },
       {
+        "allowCustomValue": false,
         "current": {
-          "text": "1739625679309.6414",
-          "value": "1739625679309.6414"
+          "text": "2025-02-15_19-47-49",
+          "value": "2025-02-15_19-47-49"
         },
-        "definition": "query_result(max(mub_experiment_finished_time_seconds*1000))",
+        "definition": "label_values(mub_experiment_start_time_deployments_seconds,experiment_id)",
+        "name": "experiment",
+        "options": [],
+        "query": {
+          "qryType": 1,
+          "query": "label_values(mub_experiment_start_time_deployments_seconds,experiment_id)",
+          "refId": "PrometheusVariableQueryEditor-VariableQuery"
+        },
+        "refresh": 1,
+        "regex": "",
+        "type": "query"
+      },
+      {
+        "current": {
+          "text": "",
+          "value": ""
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${ds}"
+        },
+        "definition": "query_result(max(mub_experiment_finished_time_seconds{experiment_id=\"$experiment\"}) * 1000)",
         "description": "",
         "hide": 2,
         "name": "finished_experiment",
         "options": [],
         "query": {
           "qryType": 3,
-          "query": "query_result(max(mub_experiment_finished_time_seconds*1000))",
+          "query": "query_result(max(mub_experiment_finished_time_seconds{experiment_id=\"$experiment\"}) * 1000)",
           "refId": "PrometheusVariableQueryEditor-VariableQuery"
         },
         "refresh": 2,
-        "regex": "\\{\\} (\\d+\\.\\d*) .*",
-        "type": "query"
-      },
-      {
-        "current": {
-          "text": "1739622050339.8467",
-          "value": "1739622050339.8467"
-        },
-        "definition": "query_result(max(mub_experiment_start_time_deployments_seconds*1000))",
-        "hide": 2,
-        "name": "start_deploy",
-        "options": [],
-        "query": {
-          "qryType": 3,
-          "query": "query_result(max(mub_experiment_start_time_deployments_seconds*1000))",
-          "refId": "PrometheusVariableQueryEditor-VariableQuery"
-        },
-        "refresh": 1,
         "regex": "\\{\\} (\\d+\\.\\d*) .*",
         "type": "query"
       },
@@ -1593,6 +1603,6 @@
   "timezone": "utc",
   "title": "ee-bench",
   "uid": "eeayt2o0nyq68b",
-  "version": 2,
+  "version": 4,
   "weekStart": ""
 }
