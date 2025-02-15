@@ -365,6 +365,7 @@
         "type": "datasource"
       },
       {
+        "allowCustomValue": false,
         "current": {
           "text": [
             "PSU1_PIN"
@@ -373,9 +374,12 @@
             "PSU1_PIN"
           ]
         },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${ds}"
+        },
         "definition": "label_values(node_ipmi_power_watts,sensor)",
         "label": "Sensor",
-        "multi": true,
         "name": "sensor",
         "options": [],
         "query": {
@@ -397,6 +401,6 @@
   "timezone": "utc",
   "title": "ee-bench-results",
   "uid": "aec2zsgqtnuo0e",
-  "version": 4,
+  "version": 6,
   "weekStart": ""
 }
