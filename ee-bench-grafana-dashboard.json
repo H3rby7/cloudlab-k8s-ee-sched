@@ -18,7 +18,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 26,
+  "id": 27,
   "links": [],
   "panels": [
     {
@@ -97,7 +97,7 @@
         "showThresholdMarkers": true,
         "sizing": "auto"
       },
-      "pluginVersion": "11.4.1",
+      "pluginVersion": "11.5.1",
       "targets": [
         {
           "editorMode": "code",
@@ -151,10 +151,10 @@
           "showLineNumbers": false,
           "showMiniMap": false
         },
-        "content": "When the line below shows a timestamp you can \n\n    '${finished_experiment}'\n\nclick the link below to switch to the result dashboard with the timeframe to cover the exact experiment durations.\n\n[Result Dashboard](./d/${result_dash_uid}/${result_dash_title}?orgId=1&from=${start_traces}&to=${finished_experiment}&timezone=utc)\n\n",
+        "content": "When the line below shows a timestamp you can \n\n    '${finished_experiment}'\n\nOpen the link below **in a new tab/window** to the result dashboard with the timeframe to cover the exact experiment durations.\n\n<a href=\"./d/${result_dash_uid}/${result_dash_title}?orgId=1&from=${start_traces}&to=${finished_experiment}&timezone=utc\" target=\"_blank\">Result Dashboard</a>\n\n\n",
         "mode": "markdown"
       },
-      "pluginVersion": "11.4.1",
+      "pluginVersion": "11.5.1",
       "title": "Result Dashboard",
       "type": "text"
     },
@@ -223,7 +223,7 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "11.4.1",
+      "pluginVersion": "11.5.1",
       "targets": [
         {
           "editorMode": "code",
@@ -305,7 +305,7 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "11.4.1",
+      "pluginVersion": "11.5.1",
       "targets": [
         {
           "editorMode": "code",
@@ -405,7 +405,7 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "11.4.1",
+      "pluginVersion": "11.5.1",
       "targets": [
         {
           "editorMode": "code",
@@ -506,7 +506,7 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "11.4.1",
+      "pluginVersion": "11.5.1",
       "targets": [
         {
           "editorMode": "code",
@@ -615,7 +615,7 @@
         "showThresholdMarkers": false,
         "sizing": "auto"
       },
-      "pluginVersion": "11.4.1",
+      "pluginVersion": "11.5.1",
       "targets": [
         {
           "editorMode": "code",
@@ -688,7 +688,7 @@
         "showThresholdMarkers": false,
         "sizing": "auto"
       },
-      "pluginVersion": "11.4.1",
+      "pluginVersion": "11.5.1",
       "targets": [
         {
           "editorMode": "code",
@@ -770,7 +770,7 @@
         "showThresholdMarkers": false,
         "sizing": "auto"
       },
-      "pluginVersion": "11.4.1",
+      "pluginVersion": "11.5.1",
       "targets": [
         {
           "editorMode": "code",
@@ -834,7 +834,7 @@
         "showThresholdMarkers": false,
         "sizing": "auto"
       },
-      "pluginVersion": "11.4.1",
+      "pluginVersion": "11.5.1",
       "targets": [
         {
           "editorMode": "code",
@@ -959,11 +959,12 @@
           "width": 250
         },
         "tooltip": {
+          "hideZeros": false,
           "mode": "single",
           "sort": "none"
         }
       },
-      "pluginVersion": "11.4.1",
+      "pluginVersion": "11.5.1",
       "targets": [
         {
           "datasource": {
@@ -1059,11 +1060,12 @@
           "width": 250
         },
         "tooltip": {
+          "hideZeros": false,
           "mode": "single",
           "sort": "none"
         }
       },
-      "pluginVersion": "11.4.1",
+      "pluginVersion": "11.5.1",
       "targets": [
         {
           "datasource": {
@@ -1160,11 +1162,12 @@
           "width": 250
         },
         "tooltip": {
+          "hideZeros": false,
           "mode": "single",
           "sort": "none"
         }
       },
-      "pluginVersion": "11.4.1",
+      "pluginVersion": "11.5.1",
       "targets": [
         {
           "datasource": {
@@ -1260,11 +1263,12 @@
           "width": 250
         },
         "tooltip": {
+          "hideZeros": false,
           "mode": "single",
           "sort": "none"
         }
       },
-      "pluginVersion": "11.4.1",
+      "pluginVersion": "11.5.1",
       "targets": [
         {
           "datasource": {
@@ -1359,11 +1363,12 @@
           "width": 250
         },
         "tooltip": {
+          "hideZeros": false,
           "mode": "single",
           "sort": "none"
         }
       },
-      "pluginVersion": "11.4.1",
+      "pluginVersion": "11.5.1",
       "targets": [
         {
           "datasource": {
@@ -1488,8 +1493,8 @@
       },
       {
         "current": {
-          "text": "1738706156685.3562",
-          "value": "1738706156685.3562"
+          "text": "1739622080339.8467",
+          "value": "1739622080339.8467"
         },
         "definition": "query_result(max(mub_experiment_start_time_traces_seconds*1000))",
         "description": "",
@@ -1507,8 +1512,8 @@
       },
       {
         "current": {
-          "text": "1738710745720.487",
-          "value": "1738710745720.487"
+          "text": "1739625679309.6414",
+          "value": "1739625679309.6414"
         },
         "definition": "query_result(max(mub_experiment_finished_time_seconds*1000))",
         "description": "",
@@ -1526,8 +1531,8 @@
       },
       {
         "current": {
-          "text": "1738706126685.3562",
-          "value": "1738706126685.3562"
+          "text": "1739622050339.8467",
+          "value": "1739622050339.8467"
         },
         "definition": "query_result(max(mub_experiment_start_time_deployments_seconds*1000))",
         "hide": 2,
@@ -1588,6 +1593,6 @@
   "timezone": "utc",
   "title": "ee-bench",
   "uid": "eeayt2o0nyq68b",
-  "version": 3,
+  "version": 2,
   "weekStart": ""
 }
