@@ -450,8 +450,7 @@ rspec.addResource(apool)
 
 class EEBench(RSpec.Resource):
     def _write(self, root):
-        ns = "eek8sbench"
-        el = ET.SubElement(root,"%s:experiment" % (ns,),attrib={'datasetBaseUrl':params.benchmarkDatasetBaseURL})
+        el = ET.SubElement(root,"eeK8sBenchExperiment",attrib={'datasetBaseUrl':params.benchmarkDatasetBaseURL})
 
 eeBenchResource = EEBench()
 rspec.addResource(eeBenchResource)
