@@ -340,6 +340,16 @@ rspec.addTour(tour)
 
 datalans = []
 
+datalan = RSpec.LAN("datalan-1")
+if params.linkSpeed > 0:
+    datalan.bandwidth = int(params.linkSpeed)
+if params.multiplexLans:
+    datalan.link_multiplexing = True
+    datalan.best_effort = True
+    # Need this cause LAN() sets the link type to lan, not sure why.
+    datalan.type = "vlan"
+datalans.append(datalan)
+
 nodes = dict({})
 
 sharedvlans = []
