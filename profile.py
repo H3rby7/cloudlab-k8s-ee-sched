@@ -36,17 +36,23 @@ pc = portal.Context()
 # Define some parameters.
 #
 pc.defineParameter(
-    "nodeCount","Number of Nodes",
-    portal.ParameterType.INTEGER,5,
-    longDescription="Number of nodes in your kubernetes cluster. Must be >= 4.")
+    "benchmarkNodeCount","Number of Benchmarking Nodes",
+    portal.ParameterType.INTEGER,4,
+    longDescription="Number of nodes in your kubernetes cluster to run the benchmark. Must be > 0.")
 pc.defineParameter(
     "nodeType","Hardware Type",
-    portal.ParameterType.NODETYPE,"",
+    portal.ParameterType.NODETYPE,"c220g1",
     longDescription="A specific hardware type to use for each node.  Cloudlab clusters all have machines of specific types.  When you set this field to a value that is a specific hardware type, you will only be able to instantiate this profile on clusters with machines of that type.  If unset, when you instantiate the profile, the resulting experiment may have machines of any available type allocated.")
+pc.defineParameter(
+    "benchmarkDatasetBaseURL","Benchmark Dataset Base URL",
+    portal.ParameterType.STRING,
+    "https://github.com/H3rby7/cloudlab-k8s-ee-sched-data/raw/refs/heads/main/2774",
+    longDescription="URL base to retrieve the dataset files (appended to the URL): [sampled_traces.tsv, deployment_ts.tsv, min_max_normalized_service_metrics.tsv, service_graphs.json]")
 pc.defineParameter(
     "linkSpeed","Experiment Link Speed",
     portal.ParameterType.INTEGER,0,
     [(0,"Any"),(1000000,"1Gb/s"),(10000000,"10Gb/s"),(25000000,"25Gb/s"),(40000000,"40Gb/s"),(100000000,"100Gb/s")],
+    advanced=True,
     longDescription="A specific link speed to use for each link/LAN.  All experiment network interfaces will request this speed.")
 pc.defineParameter(
     "diskImage","Disk Image",
@@ -235,6 +241,9 @@ pc.defineStructParameter(
 #
 params = pc.bindParameters()
 
+# Two control pane nodes and one observer node => 3 additional nodes
+nodeCount = params.benchmarkNodeCount + 3
+
 i = 0
 for x in params.sharedVlans:
     n = 0
@@ -331,21 +340,10 @@ rspec.addTour(tour)
 
 datalans = []
 
-if params.nodeCount > 1:
-    datalan = RSpec.LAN("datalan-1")
-    if params.linkSpeed > 0:
-        datalan.bandwidth = int(params.linkSpeed)
-    if params.multiplexLans:
-        datalan.link_multiplexing = True
-        datalan.best_effort = True
-        # Need this cause LAN() sets the link type to lan, not sure why.
-        datalan.type = "vlan"
-    datalans.append(datalan)
-
 nodes = dict({})
 
 sharedvlans = []
-for i in range(0,params.nodeCount):
+for i in range(0,nodeCount):
     nodename = "node-%d" % (i,)
     node = RSpec.RawPC(nodename)
     if params.nodeType:
@@ -449,5 +447,13 @@ rspec.addResource(adminPassResource)
 #
 apool = IG.AddressPool("node-0", 1)
 rspec.addResource(apool)
+
+class EEBench(RSpec.Resource):
+    def _write(self, root):
+        ns = "eek8sbench"
+        el = ET.SubElement(root,"%sexperiment" % (ns,),attrib={'datasetBaseUrl':params.benchmarkDatasetBaseURL})
+
+eeBenchResource = EEBench()
+rspec.addResource(eeBenchResource)
 
 pc.printRequestRSpec(rspec)
