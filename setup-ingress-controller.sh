@@ -20,12 +20,6 @@ helm repo update
 
 kubectl create namespace nginx
 
-# Create secret for ingress BASIC AUTH
-# Output file name must be 'auth' as this will be the KEY inside the secret
-echo "$ADMIN_PASS" | htpasswd -n -i "$ADMIN" | tee -a auth
-kubectl --namespace monitoring create secret generic ingress-basic-auth --from-file=auth
-rm auth
-
 # Setup nginx
 # https://kubernetes.github.io/ingress-nginx/
 

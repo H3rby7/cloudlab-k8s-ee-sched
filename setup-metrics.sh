@@ -23,6 +23,12 @@ kubectl create namespace monitoring
 # Create GRAFANA admin secret
 kubectl --namespace monitoring create secret generic grafana-admin --from-literal=admin-user=${ADMIN} --from-literal=admin-password=${ADMIN_PASS}
 
+# Create secret for ingress BASIC AUTH
+# Output file name must be 'auth' as this will be the KEY inside the secret
+echo "$ADMIN_PASS" | htpasswd -n -i "$ADMIN" | tee -a auth
+kubectl --namespace monitoring create secret generic ingress-basic-auth --from-file=auth
+rm auth
+
 # Setup prometheus stack for metric collection
 helm install obs \
     prometheus-community/kube-prometheus-stack \
