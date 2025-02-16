@@ -129,6 +129,7 @@
           "color": {
             "mode": "thresholds"
           },
+          "decimals": 4,
           "mappings": [],
           "thresholds": {
             "mode": "percentage",
@@ -151,7 +152,7 @@
               }
             ]
           },
-          "unit": "s"
+          "unit": "none"
         },
         "overrides": []
       },
@@ -191,7 +192,7 @@
           "type": "math"
         }
       ],
-      "title": "Time Taken",
+      "title": "Time Taken (seconds)",
       "type": "stat"
     },
     {
