@@ -22,8 +22,9 @@ echo "Setting up '/dataset' directory with input data"
 $SUDO mkdir -p /dataset
 $SUDO chmod 777 /dataset
 
-# TODO: Use specific REF rather than the main branch
-base_url="https://github.com/H3rby7/cloudlab-k8s-ee-sched-data/raw/refs/heads/main/2774"
+base_url=`awk -F'[<>]' '$0 ~ /name="emulab.net.parameter.benchmarkDatasetBaseURL"/ {print $3}' $OURDIR/manifests.0.xml`
+
+echo "Getting dataset from '${base_url}'"
 
 echo "Getting traces..."
 $SUDO wget -O traces.csv "${base_url}/sampled_traces.tsv"

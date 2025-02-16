@@ -22,8 +22,9 @@ echo "Setting up '/functions' directory with input data"
 $SUDO mkdir -p /internal-svc-functions
 $SUDO chmod 777 /internal-svc-functions
 
-# TODO: Use specific REF rather than the main branch
-base_url="https://github.com/H3rby7/cloudlab-k8s-ee-sched-functions/raw/refs/heads/main"
+base_url=`awk -F'[<>]' '$0 ~ /name="emulab.net.parameter.benchmarkFunctionsBaseURL"/ {print $3}' $OURDIR/manifests.0.xml`
+
+echo "Getting InternalServiceFunctions from '${base_url}'"
 
 echo "Getting 'Loader.py' ..."
 $SUDO wget -O Loader.py "${base_url}/Loader.py"

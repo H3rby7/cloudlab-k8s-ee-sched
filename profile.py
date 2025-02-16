@@ -49,6 +49,11 @@ pc.defineParameter(
     "https://github.com/H3rby7/cloudlab-k8s-ee-sched-data/raw/refs/heads/main/2774",
     longDescription="URL base to retrieve the dataset files (appended to the URL): [sampled_traces.tsv, deployment_ts.tsv, min_max_normalized_service_metrics.tsv, service_graphs.json]")
 pc.defineParameter(
+    "benchmarkFunctionsBaseURL","Benchmark Functions Base URL",
+    portal.ParameterType.STRING,
+    "https://github.com/H3rby7/cloudlab-k8s-ee-sched-functions/raw/refs/heads/main",
+    longDescription="URL base to retrieve the InternalServiceFunctions for the service cells: [Loader.py]")
+pc.defineParameter(
     "linkSpeed","Experiment Link Speed",
     portal.ParameterType.INTEGER,0,
     [(0,"Any"),(1000000,"1Gb/s"),(10000000,"10Gb/s"),(25000000,"25Gb/s"),(40000000,"40Gb/s"),(100000000,"100Gb/s")],
@@ -457,12 +462,5 @@ rspec.addResource(adminPassResource)
 #
 apool = IG.AddressPool("node-0", 1)
 rspec.addResource(apool)
-
-class EEBench(RSpec.Resource):
-    def _write(self, root):
-        el = ET.SubElement(root,"eeK8sBenchExperiment",attrib={'datasetBaseUrl':params.benchmarkDatasetBaseURL})
-
-eeBenchResource = EEBench()
-rspec.addResource(eeBenchResource)
 
 pc.printRequestRSpec(rspec)
