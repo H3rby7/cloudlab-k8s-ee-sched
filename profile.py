@@ -42,12 +42,20 @@ pc.defineParameter(
 pc.defineParameter(
     "nodeType","Hardware Type",
     portal.ParameterType.NODETYPE,"c220g1",
-    longDescription="A specific hardware type to use for each node.  Cloudlab clusters all have machines of specific types.  When you set this field to a value that is a specific hardware type, you will only be able to instantiate this profile on clusters with machines of that type.  If unset, when you instantiate the profile, the resulting experiment may have machines of any available type allocated.")
+    longDescription="A specific hardware type to use for each node. Cloudlab clusters all have machines of specific types.  When you set this field to a value that is a specific hardware type, you will only be able to instantiate this profile on clusters with machines of that type.  If unset, when you instantiate the profile, the resulting experiment may have machines of any available type allocated.")
+pc.defineParameter(
+    "totalCPU","Total CPU core count",
+    portal.ParameterType.INTEGER,0,
+    longDescription="Sum of benchmarking nodes' `hw_cpu_cores` (see machine specs). E.G. 4 nodes with 10 cores each = 40")
+pc.defineParameter(
+    "totalMEMORY","Total MEMORY size",
+    portal.ParameterType.INTEGER,0,
+    longDescription="Sum of benchmarking nodes' `hw_mem_size` (see machine specs). E.G. 4 nodes with 125000 each = 600000")
 pc.defineParameter(
     "benchmarkDatasetBaseURL","Benchmark Dataset Base URL",
     portal.ParameterType.STRING,
     "https://github.com/H3rby7/cloudlab-k8s-ee-sched-data/raw/refs/heads/main/2774",
-    longDescription="URL base to retrieve the dataset files (appended to the URL): [sampled_traces.tsv, deployment_ts.tsv, min_max_normalized_service_metrics.tsv, service_graphs.json]")
+    longDescription="URL base to retrieve the dataset files (appended to the URL): [sampled_traces.tsv, deployment_ts.tsv, min_max_normalized_service_metrics.tsv, service_graphs.json, target_resource_means.json]")
 pc.defineParameter(
     "benchmarkFunctionsBaseURL","Benchmark Functions Base URL",
     portal.ParameterType.STRING,

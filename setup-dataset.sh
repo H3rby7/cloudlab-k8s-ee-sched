@@ -58,6 +58,14 @@ if [ $? -ne 0 ]; then
 fi
 $SUDO mv service_graphs.json /dataset/
 
+echo "Getting target_resource_means..."
+$SUDO wget -O target_resource_means.json "${base_url}/target_resource_means.json"
+if [ $? -ne 0 ]; then
+    echo "FATAL -> Required download failed!"
+    exit 1
+fi
+$SUDO mv target_resource_means.json /dataset/
+
 $SUDO ls -al /dataset/
 
 echo "Setting up '/result' directory"

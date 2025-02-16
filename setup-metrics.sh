@@ -38,6 +38,18 @@ helm install obs \
 # Create configMap that will be detected and deployed by the grafana sidecar
 kubectl create --namespace monitoring -f $REPODIR/custom-grafana-dashboards.yaml
 
+tries=60
+while [ $tries -gt 0 ]; do
+    kubectl wait pod -n monitoring --for=condition=Ready --all
+    if [ $? -eq 0 ]; then
+	break
+    else
+	tries=`expr $tries - 1`
+	echo "WARNING: waiting for monitoring pods to be Ready ($tries remaining)"
+	sleep 5
+    fi
+done
+
 logtend "metrics"
 touch $OURDIR/metrics-done
 exit 0
