@@ -1,5 +1,7 @@
 # Hardware
 
+https://docs.cloudlab.us/hardware.html#(part._cloudlab-wisconsin)
+
 Not all hardware has support to read the current power usage
 
 Site                | type                                                                         | power   | sensors
