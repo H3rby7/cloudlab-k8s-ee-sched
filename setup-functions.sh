@@ -28,8 +28,8 @@ echo "Getting InternalServiceFunctions from '${base_url}'"
 
 echo "Getting 'Loader.py' ..."
 $SUDO wget -O Loader.py "${base_url}/Loader.py"
-if [ ! -e Loader.py ]; then
-    echo "FATAL! -> Could not get 'Loader.py'"
+if [ $? -ne 0 ]; then
+    echo "FATAL -> Required download failed!"
     exit 1
 fi
 $SUDO mv Loader.py /internal-svc-functions/

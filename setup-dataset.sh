@@ -28,32 +28,32 @@ echo "Getting dataset from '${base_url}'"
 
 echo "Getting traces..."
 $SUDO wget -O traces.csv "${base_url}/sampled_traces.tsv"
-if [ ! -e traces.csv ]; then
-    echo "FATAL! -> Could not get '${base_url}/sampled_traces.tsv'"
+if [ $? -ne 0 ]; then
+    echo "FATAL -> Required download failed!"
     exit 1
 fi
 $SUDO mv traces.csv /dataset/
 
 echo "Getting deployment_ts..."
 $SUDO wget -O deployment_ts.csv "${base_url}/deployment_ts.tsv"
-if [ ! -e deployment_ts.csv ]; then
-    echo "FATAL! -> Could not get '${base_url}/deployment_ts.tsv'"
+if [ $? -ne 0 ]; then
+    echo "FATAL -> Required download failed!"
     exit 1
 fi
 $SUDO mv deployment_ts.csv /dataset/
 
 echo "Getting min_max_normalized_service_metrics..."
 $SUDO wget -O min_max_normalized_service_metrics.csv "${base_url}/min_max_normalized_service_metrics.tsv"
-if [ ! -e min_max_normalized_service_metrics.csv ]; then
-    echo "FATAL! -> Could not get '${base_url}/min_max_normalized_service_metrics.tsv'"
+if [ $? -ne 0 ]; then
+    echo "FATAL -> Required download failed!"
     exit 1
 fi
 $SUDO mv min_max_normalized_service_metrics.csv /dataset/
 
 echo "Getting service_graphs..."
 $SUDO wget -O service_graphs.json "${base_url}/service_graphs.json"
-if [ ! -e service_graphs.json ]; then
-    echo "FATAL! -> Could not get '${base_url}/service_graphs.json'"
+if [ $? -ne 0 ]; then
+    echo "FATAL -> Required download failed!"
     exit 1
 fi
 $SUDO mv service_graphs.json /dataset/
