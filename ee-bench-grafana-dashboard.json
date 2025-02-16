@@ -151,7 +151,7 @@
           "showLineNumbers": false,
           "showMiniMap": false
         },
-        "content": "When the line below shows a timestamp you can \n\n    '${finished_experiment}'\n\nOpen the link below **in a new tab/window** to the result dashboard with the timeframe to cover the exact experiment durations.\n\n<a href=\"./d/${result_dash_uid}/${result_dash_title}?orgId=1&from=${start_traces}&to=${finished_experiment}&timezone=utc\" target=\"_blank\">Result Dashboard</a>\n\n\n",
+        "content": "When the line below shows a timestamp you can \n\n    ${finished_experiment}\n\nOpen the link below **in a new tab/window** to the result dashboard with the timeframe to cover the exact experiment durations.\n\n<a href=\"./d/${result_dash_uid}/${result_dash_title}?orgId=1&from=${start_traces}&to=${finished_experiment}&timezone=utc\" target=\"_blank\">Result Dashboard</a>\n\n\n",
         "mode": "markdown"
       },
       "pluginVersion": "11.5.1",
