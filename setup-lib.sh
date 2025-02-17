@@ -470,8 +470,7 @@ fi
 # an fqdn map.  First we tried the GENI way; then the old Emulab way with
 # topomap.
 #
-NODES=`cat $OURDIR/fqdn.map | cut -f1 | sort -n | xargs`
-FQDNS=`cat $OURDIR/fqdn.map | cut -f2 | sort -n | xargs`
+NODES=`cat $OURDIR/fqdn.map | cut -f1 | cut -d'-' -f2 | sort -n | sed 's/.*/node-&/' | xargs`
 NODEIPS=""
 NODECOUNT=0
 for node in $NODES ; do
