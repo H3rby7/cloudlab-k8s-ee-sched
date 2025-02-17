@@ -1,0 +1,8 @@
+services:
+  helm:
+    image: alpine/helm:3.16.4
+    entrypoint: /bin/bash
+    working_dir: /test
+    tty: true
+    volumes:
+      - ./data:/test

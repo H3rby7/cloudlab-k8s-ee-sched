@@ -1,0 +1,125 @@
+# https://github.com/prometheus-community/helm-charts/blob/main/charts/kube-prometheus-stack/values.yaml
+
+defaultRules:
+  create: true
+  rules:
+    alertmanager: false
+    configReloaders: false
+    windows: false
+prometheus-windows-exporter:
+  prometheus:
+    monitor:
+      enabled: false
+alertmanager:
+  enabled: false
+kubeApiServer:
+  enabled: true
+kubelet:
+  enabled: true
+  serviceMonitor:
+    cAdvisorMetricRelabelings:
+    # Drop container_memory_failures_total{scope="hierarchy"} metrics,
+    # we only need the container scope.
+    - sourceLabels: [__name__, scope]
+      action: drop
+      regex: 'container_memory_failures_total;hierarchy'
+    # Drop container_network_... metrics that match various interfaces that
+    # correspond to CNI and similar interfaces. This avoids capturing network
+    # metrics for host network containers.
+    - sourceLabels: [__name__, interface]
+      action: drop
+      regex: 'container_network_.*;(cali|cilium|cni|lxc|nodelocaldns|tunl).*'
+    # Drop container spec metrics that overlap with kube-state-metrics.
+    - sourceLabels: [__name__]
+      action: drop
+      regex: 'container_spec.*'
+    # Drop cgroup metrics with no pod.
+    - sourceLabels: [id, pod]
+      action: drop
+      regex: '.+;'
+kubeControllerManager:
+  enabled: false
+coreDns:
+  enabled: false
+kubeDns:
+  enabled: false
+kubeEtcd:
+  enabled: false
+kubeProxy:
+  enabled: false
+kubeStateMetrics:
+  enabled: true
+kubeScheduler:
+  enabled: true
+grafana:
+  ingress:
+    enabled: true
+    annotations:
+      kubernetes.io/ingress.class: nginx
+      nginx.ingress.kubernetes.io/auth-type: basic
+      nginx.ingress.kubernetes.io/auth-secret: ingress-basic-auth
+    path: /grafana
+  grafana.ini:
+    server:
+      root_url: "/grafana/"
+      serve_from_sub_path: true
+  admin:
+    existingSecret: grafana-admin
+  serviceMonitor:
+    enabled: false
+prometheus:
+  ingress:
+    enabled: true
+    annotations:
+      kubernetes.io/ingress.class: nginx
+      nginx.ingress.kubernetes.io/auth-type: basic
+      nginx.ingress.kubernetes.io/auth-secret: ingress-basic-auth
+    paths:
+      - /prometheus
+  prometheusSpec:
+    externalUrl: "/prometheus/"
+    routePrefix: /prometheus
+    serviceMonitorSelectorNilUsesHelmValues: false
+    podMonitorSelectorNilUsesHelmValues: false
+    podMonitorNamespaceSelector:
+      matchExpressions:
+      - key: kubernetes.io/metadata.name
+        operator: In
+        values:
+        - monitoring
+        - kube-system
+        - default
+        - mubench
+prometheus-node-exporter:
+  extraArgs:
+    - --collector.filesystem.mount-points-exclude=^/(dev|proc|sys|var/lib/docker/.+|var/lib/kubelet/.+)($|/)
+    - --collector.filesystem.fs-types-exclude=^(autofs|binfmt_misc|bpf|cgroup2?|configfs|debugfs|devpts|devtmpfs|fusectl|hugetlbfs|iso9660|mqueue|nsfs|overlay|proc|procfs|pstore|rpc_pipefs|securityfs|selinuxfs|squashfs|sysfs|tracefs)$
+    - --collector.textfile.directory=/text-collectors
+  extraHostVolumeMounts:
+    - name: text-collectors
+      hostPath: /node-exporter-text-collectors
+      mountPath: /text-collectors
+      readOnly: true
+  prometheus:
+    monitor:
+      interval: 10s
+      relabelings:
+        - sourceLabels: [__meta_kubernetes_pod_node_name]
+          separator: ;
+          regex: ^(.*)$
+          targetLabel: node_name
+          replacement: $1
+          action: replace
+        - sourceLabels: [__meta_kubernetes_pod_host_ip]
+          separator: ;
+          regex: ^(.*)$
+          targetLabel: node_ip
+          replacement: $1
+          action: replace
+prometheusOperator:
+  namespaces:
+    releaseNamespace: true
+    additional:
+    - kube-system
+    - default
+    - mubench

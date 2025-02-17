@@ -141,47 +141,29 @@ kube-master
 kube-node
 EOF
 
-if [ $NODECOUNT -eq 1 ]; then
-    # We cannot use localhost; we have to use a dummy device, and that
-    # works fine.  We need to fix things up because there is nothing in
-    # /etc/hosts, nor have ssh keys been scanned and placed in
-    # known_hosts.
-    ip=`getnodeip $HEAD $MGMTLAN`
-    nm=`getnetmask $MGMTLAN`
-    prefix=`netmask2prefix $nm`
-    cidr=$ip/$prefix
-    echo "$ip $HEAD $HEAD-$MGMTLAN" | $SUDO tee -a /etc/hosts
-    $SUDO ip link add type dummy name dummy0
-    $SUDO ip addr add $cidr dev dummy0
-    $SUDO ip link set dummy0 up
-    DISTRIB_MAJOR=`. /etc/lsb-release && echo $DISTRIB_RELEASE | cut -d. -f1`
-    if [ $DISTRIB_MAJOR -lt 18 ]; then
-	cat <<EOF | $SUDO tee /etc/network/interfaces.d/kube-single-node.conf
-auto dummy0
-iface dummy0 inet static
-    address $cidr
-    pre-up ip link add dummy0 type dummy
-EOF
-    else
-	cat <<EOF | $SUDO tee /etc/systemd/network/dummy0.netdev
-[NetDev]
-Name=dummy0
-Kind=dummy
-EOF
-	cat <<EOF | $SUDO tee /etc/systemd/network/dummy0.network
-[Match]
-Name=dummy0
+# 3rd node will be used to host all observer pods and our runner
+# We would not need to give it an extra label but it sure looks nicer.
+observernodecount=3
+echo '[observer-node]' >> $INV
+for node in `echo $NODES | cut -d ' ' -f${observernodecount}` ; do
+    echo "$node" >> $INV
+done
 
-[Network]
-DHCP=no
-Address=$cidr
-IPForward=yes
-EOF
-    fi
+# Starting with node 4: usable for the benchmarking
+benchmarknodecount=4
+echo '[benchmarking-node]' >> $INV
+for node in `echo $NODES | cut -d ' ' -f${benchmarknodecount}-` ; do
+    echo "$node" >> $INV
+done
 
-    ssh-keyscan $HEAD >> ~/.ssh/known_hosts
-    ssh-keyscan $ip >> ~/.ssh/known_hosts
-fi
+cat <<EOF >> $INV
+[observer-node:vars]
+node_labels={"node-role.kubernetes.io/observer":""}
+
+[benchmarking-node:vars]
+node_labels={"node-role.kubernetes.io/benchmarking":""}
+node_taints=["benchmarking=yes:NoSchedule"]
+EOF
 
 #
 # Get our basic configuration into place.
@@ -195,7 +177,7 @@ ansible_user: $SWAPPER
 kube_apiserver_node_port_range: 2000-36767
 kubeadm_enabled: true
 dns_min_replicas: 1
-dashboard_enabled: true
+dashboard_enabled: false
 dashboard_token_ttl: 43200
 enable_nodelocaldns: false
 enable_nodelocaldns_secondary: false
@@ -301,7 +283,7 @@ docker_dns_servers_strict: false
 kubectl_localhost: true
 kubeconfig_localhost: true
 docker_options: "$DOCKOPTS ${DOCKEROPTIONS}"
-metrics_server_enabled: true
+metrics_server_enabled: false
 kube_basic_auth: true
 kube_api_pwd: "$ADMIN_PASS"
 kube_users:

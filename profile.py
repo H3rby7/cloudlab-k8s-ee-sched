@@ -36,17 +36,36 @@ pc = portal.Context()
 # Define some parameters.
 #
 pc.defineParameter(
-    "nodeCount","Number of Nodes",
-    portal.ParameterType.INTEGER,3,
-    longDescription="Number of nodes in your kubernetes cluster.  Should be either 1, or >= 3.")
+    "benchmarkNodeCount","Number of Benchmarking Nodes",
+    portal.ParameterType.INTEGER,5,
+    longDescription="Number of nodes in your kubernetes cluster to run the benchmark. Must be > 0.")
 pc.defineParameter(
     "nodeType","Hardware Type",
-    portal.ParameterType.NODETYPE,"",
-    longDescription="A specific hardware type to use for each node.  Cloudlab clusters all have machines of specific types.  When you set this field to a value that is a specific hardware type, you will only be able to instantiate this profile on clusters with machines of that type.  If unset, when you instantiate the profile, the resulting experiment may have machines of any available type allocated.")
+    portal.ParameterType.NODETYPE,"c220g2",
+    longDescription="A specific hardware type to use for each node. Cloudlab clusters all have machines of specific types.  When you set this field to a value that is a specific hardware type, you will only be able to instantiate this profile on clusters with machines of that type.  If unset, when you instantiate the profile, the resulting experiment may have machines of any available type allocated.")
+pc.defineParameter(
+    "totalCPU","Total CPU core count",
+    portal.ParameterType.INTEGER,50,
+    longDescription="Sum of benchmarking nodes' `hw_cpu_cores` (see machine specs). E.G. 4 nodes with 10 cores each = 40")
+pc.defineParameter(
+    "totalMEMORY","Total MEMORY size",
+    portal.ParameterType.INTEGER,819200,
+    longDescription="Sum of benchmarking nodes' `hw_mem_size` (see machine specs). E.G. 4 nodes with 125000 each = 600000")
+pc.defineParameter(
+    "benchmarkDatasetBaseURL","Benchmark Dataset Base URL",
+    portal.ParameterType.STRING,
+    "https://github.com/H3rby7/cloudlab-k8s-ee-sched-data/raw/refs/heads/main/2774",
+    longDescription="URL base to retrieve the dataset files (appended to the URL): [sampled_traces.tsv, deployment_ts.tsv, min_max_normalized_service_metrics.tsv, service_graphs.json, target_resource_means.json]")
+pc.defineParameter(
+    "benchmarkFunctionsBaseURL","Benchmark Functions Base URL",
+    portal.ParameterType.STRING,
+    "https://github.com/H3rby7/cloudlab-k8s-ee-sched-functions/raw/refs/heads/main",
+    longDescription="URL base to retrieve the InternalServiceFunctions for the service cells: [Loader.py]")
 pc.defineParameter(
     "linkSpeed","Experiment Link Speed",
     portal.ParameterType.INTEGER,0,
     [(0,"Any"),(1000000,"1Gb/s"),(10000000,"10Gb/s"),(25000000,"25Gb/s"),(40000000,"40Gb/s"),(100000000,"100Gb/s")],
+    advanced=True,
     longDescription="A specific link speed to use for each link/LAN.  All experiment network interfaces will request this speed.")
 pc.defineParameter(
     "diskImage","Disk Image",
@@ -137,12 +156,7 @@ pc.defineParameter(
 pc.defineParameter(
     "kubeDoMetalLB","Kubespray Enable MetalLB",
     portal.ParameterType.BOOLEAN,True,
-    longDescription="We enable MetalLB by default, so that users can use an \"external\" load balancer service type.  You need at least one public IP address for this option because it doesn't make sense without one.",
-    advanced=True)
-pc.defineParameter(
-    "publicIPCount", "Number of public IP addresses",
-    portal.ParameterType.INTEGER,1,
-    longDescription="Set the number of public IP addresses you will need for externally-published services (e.g., via a load balancer like MetalLB.",
+    longDescription="We enable MetalLB by default, so that the NGINX ingress controller can be reached.",
     advanced=True)
 pc.defineParameter(
     "kubeFeatureGates","Kubernetes Feature Gate List",
@@ -166,7 +180,7 @@ pc.defineParameter(
     advanced=True)
 pc.defineParameter(
     "sslCertType","SSL Certificate Type",
-    portal.ParameterType.STRING,"self",
+    portal.ParameterType.STRING,"none",
     [("none","None"),("self","Self-Signed"),("letsencrypt","Let's Encrypt")],
     advanced=True,
     longDescription="Choose an SSL Certificate strategy.  By default, we generate self-signed certificates, and only use them for a reverse web proxy to allow secure remote access to the Kubernetes Dashboard.  However, you may choose `None` if you prefer to arrange remote access differently (e.g. ssh port forwarding).  You may also choose to use Let's Encrypt certificates whose trust root is accepted by all modern browsers.")
@@ -178,8 +192,8 @@ pc.defineParameter(
     longDescription="Choose where you want the SSL certificates deployed.  Currently the only option is for them to be configured as part of the web proxy to the dashboard.")
 pc.defineParameter(
     "doNFS","Enable NFS",
-    portal.ParameterType.BOOLEAN,True,
-    longDescription="We enable NFS by default, to be used by persistent volumes in Kubernetes services.",
+    portal.ParameterType.BOOLEAN,False,
+    longDescription="NFS can be used by persistent volumes in Kubernetes services.",
     advanced=True)
 pc.defineParameter(
     "nfsAsync","Export NFS volume async",
@@ -240,16 +254,9 @@ pc.defineStructParameter(
 #
 params = pc.bindParameters()
 
-if params.publicIPCount > 8:
-    perr = portal.ParameterWarning(
-        "You cannot request more than 8 public IP addresses, at least not without creating your own modified version of this profile!",
-        ["publicIPCount"])
-    pc.reportWarning(perr)
-if params.kubeDoMetalLB and params.publicIPCount < 1:
-    perr = portal.ParameterWarning(
-        "If you enable MetalLB, you must request at least one public IP address!",
-        ["kubeDoMetalLB","publicIPCount"])
-    pc.reportWarning(perr)
+# Two control pane nodes and one observer node => 3 additional nodes
+nodeCount = params.benchmarkNodeCount + 3
+
 i = 0
 for x in params.sharedVlans:
     n = 0
@@ -286,6 +293,10 @@ pc.verifyParameters()
 #
 kubeInstructions = \
   """
+## Authorization
+
+Standard Auth for almost anything: username `admin`, password `{password-adminPass}`
+
 ## Waiting for your Experiment to Complete Setup
 
 Once the initial phase of experiment creation completes (disk load and node configuration), the profile's setup scripts begin the complex process of installing software according to profile parameters, so you must wait to access software resources until they complete.  The Kubernetes dashboard link will not be available immediately.  There are multiple ways to determine if the scripts have finished.
@@ -294,17 +305,17 @@ Once the initial phase of experiment creation completes (disk load and node conf
   - Third, the profile configuration scripts send emails: one to notify you that profile setup has started, and another notify you that setup has completed.
   - Finally, you can view [the profile setup script logfiles](http://{host-node-0}:7999/) as the setup scripts run.  Use the `admin` username and the automatically-generated random password `{password-adminPass}` .  This URL is available very quickly after profile setup scripts begin work.
 
-## Kubernetes credentials and dashboard access
+## Accessing Services
 
-Once the profile's scripts have finished configuring software in your experiment, you'll be able to visit [the Kubernetes Dashboard WWW interface](https://{host-node-0}:8080/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/#!/login) (approx. 10-15 minutes for the Kubernetes portion alone).
+Everything you need to access is exposed via NGINX Ingress and LoadBalancer - find IP in the manifests (public IP addr) or
 
-The easiest login option is to use token authentication.  (Basic auth is configured if available, for older kubernetes versions, username `admin` password `{password-adminPass}`.  You may also supply a kubeconfig file, but we don't provide one that includes a secret by default, so you would have to generate that.)
+    kubectl -nnginx get svc nginx-ingress-nginx-controller | awk -F ' ' '{print $4}'
 
-For `token` authentication: copy the token from http://{host-node-0}:7999/admin-token.txt (username `admin`, password `{password-adminPass}`) (this file is located on `node-0` in `/local/setup/admin-token.txt`).
+When prompted for a login, use the standard credentials.
 
-(To provide secure dashboard access, we run a `kube-proxy` instance that listens on localhost:8888 and accepts all incoming hosts, and export that via nginx proxy listening on `{host-node-0}:8080` (but note that the proxy is restricted by path to the dashboard path only, so you cannot use this more generally).  We also create an `admin` `serviceaccount` in the `default` namespace, and that is the serviceaccount associated with the token auth option mentioned just above.)
- 
-Kubernetes credentials are in `~/.kube/config`, or in `/root/.kube/config`, as you'd expect.
+## Kubernetes, Kubectl and kubeconf
+
+Kubernetes credentials are in `~/.kube/config`, or in `/root/.kube/config` (of node-0), as you'd expect.
 
 ## Changing your Kubernetes deployment
 
@@ -312,11 +323,11 @@ The profile's setup scripts are automatically installed on each node in `/local/
 
 Kubespray is a collection of Ansible playbooks, so you can make changes to the deployed kubernetes cluster, or even destroy and rebuild it (although you would then lose any of the post-install configuration we do in `/local/repository/setup-kubernetes-extra.sh`).  The `/local/repository/setup-kubespray.sh` script installs Ansible inside a Python 3 `virtualenv` (in `/local/setup/kubespray-virtualenv` on `node-0`).  A `virtualenv` (or `venv`) is effectively a separate part of the filesystem containing Python libraries and scripts, and a set of environment variables and paths that restrict its user to those Python libraries and scripts.  To modify your cluster's configuration in the Kubespray/Ansible way, you can run commands like these (as your uid):
 
-1. "Enter" (or access) the `virtualenv`: `. /local/setup/kubespray-virtualenv/bin/activate`
-2. Leave (or remove the environment vars from your shell session) the `virtualenv`: `deactivate`
-3. Destroy your entire kubernetes cluster: `ansible-playbook -i /local/setup/inventories/emulab/inventory.ini /local/setup/kubespray/remove-node.yml -b -v --extra-vars "node=node-0,node-1,node-2"`
+1. "Enter" (or access) the "virtualenv": `. /local/setup/kubespray-virtualenv/bin/activate`
+2. Leave (or remove the environment vars from your shell session) the "virtualenv": `deactivate`
+3. Destroy your entire kubernetes cluster: `ansible-playbook -i /local/setup/inventories/kubernetes/inventory.ini /local/setup/kubespray/remove-node.yml -b -v --extra-vars "node=node-0,node-1,node-2"`
    (note that you would want to supply the short names of all nodes in your experiment)
-4. Recreate your kubernetes cluster: `ansible-playbook -i /local/setup/inventories/emulab/inventory.ini /local/setup/kubespray/cluster.yml -b -v`
+4. Recreate your kubernetes cluster: `ansible-playbook -i /local/setup/inventories/kubernetes/inventory.ini /local/setup/kubespray/cluster.yml -b -v`
 
 To change the Ansible and playbook configuration, you can start reading Kubespray documentation:
   - https://github.com/kubernetes-sigs/kubespray/blob/master/docs/getting-started.md
@@ -328,7 +339,7 @@ To change the Ansible and playbook configuration, you can start reading Kubespra
 # Customizable area for forks.
 #
 tourDescription = \
-  "This profile creates a Kubernetes cluster with [Kubespray]().  When you click the Instantiate button, you'll be presented with a list of parameters that you can change to control what your Kubernetes cluster will look like; read the parameter documentation on that page (or in the Instructions)."
+  "This profile creates a Kubernetes cluster to benchmark kubernetes schedulers. When you click the Instantiate button, you'll be presented with a list of parameters that you can change to control what your Kubernetes cluster will look like; read the parameter documentation on that page (or in the Instructions)."
 
 tourInstructions = kubeInstructions
 
@@ -342,21 +353,20 @@ rspec.addTour(tour)
 
 datalans = []
 
-if params.nodeCount > 1:
-    datalan = RSpec.LAN("datalan-1")
-    if params.linkSpeed > 0:
-        datalan.bandwidth = int(params.linkSpeed)
-    if params.multiplexLans:
-        datalan.link_multiplexing = True
-        datalan.best_effort = True
-        # Need this cause LAN() sets the link type to lan, not sure why.
-        datalan.type = "vlan"
-    datalans.append(datalan)
+datalan = RSpec.LAN("datalan-1")
+if params.linkSpeed > 0:
+    datalan.bandwidth = int(params.linkSpeed)
+if params.multiplexLans:
+    datalan.link_multiplexing = True
+    datalan.best_effort = True
+    # Need this cause LAN() sets the link type to lan, not sure why.
+    datalan.type = "vlan"
+datalans.append(datalan)
 
 nodes = dict({})
 
 sharedvlans = []
-for i in range(0,params.nodeCount):
+for i in range(0,nodeCount):
     nodename = "node-%d" % (i,)
     node = RSpec.RawPC(nodename)
     if params.nodeType:
@@ -456,9 +466,9 @@ adminPassResource = EmulabEncrypt()
 rspec.addResource(adminPassResource)
 
 #
-# Grab a few public IP addresses.
+# Grab on public IP address for nginx.
 #
-apool = IG.AddressPool("node-0",params.publicIPCount)
+apool = IG.AddressPool("node-0", 1)
 rspec.addResource(apool)
 
 pc.printRequestRSpec(rspec)
