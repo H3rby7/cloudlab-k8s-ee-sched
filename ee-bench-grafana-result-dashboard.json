@@ -296,7 +296,7 @@
           "color": {
             "mode": "fixed"
           },
-          "decimals": 3,
+          "decimals": 4,
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
