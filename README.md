@@ -20,6 +20,8 @@ node-3 ... | benchmarking (only runs required daemonsets and service-cells)
 - [Cloudlab EE Scheduler Benchmarking Profile](#cloudlab-ee-scheduler-benchmarking-profile)
 - [TODOs](#todos)
 - [Cheatsheet](#cheatsheet)
+  - [Git](#git)
+  - [Changing helm deployments live](#changing-helm-deployments-live)
 - [Grafana Dashboard](#grafana-dashboard)
   - [Modify Grafana Dashboard](#modify-grafana-dashboard)
 - [Limitations](#limitations)
@@ -35,10 +37,18 @@ node-3 ... | benchmarking (only runs required daemonsets and service-cells)
 
 # Cheatsheet
 
+## Git
+
 adding +x permissions on windows git (for sh files)
 
    git update-index --chmod=+x setup-file.sh
    kubectl get pods --all-namespaces -o wide --field-selector spec.nodeName=<node-X>
+
+## Changing helm deployments live
+
+prometheus stack
+
+   helm upgrade obs prometheus-community/kube-prometheus-stack --version 69.3.1 --namespace monitoring -f /local/repository/prometheus-values.yaml
 
 # Grafana Dashboard
 
