@@ -37,8 +37,7 @@ resources:
     nodes_total_cpu_cores: $total_cpu
     nodes_total_memory_mbytes: $total_memory
   service_cell:
-    # value in profile -> '$set_limits'
-    set_resource_limits: false
+    set_resource_limits: $set_limits
 EOF
 
 echo "****************** Custom HELM values ******************"
