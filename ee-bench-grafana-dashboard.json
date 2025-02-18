@@ -645,7 +645,7 @@
         "type": "prometheus",
         "uid": "prometheus"
       },
-      "description": "",
+      "description": "Includes finished and pending requests",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -721,7 +721,7 @@
         "type": "prometheus",
         "uid": "prometheus"
       },
-      "description": "",
+      "description": "Requests in progress (includes delayed requests that have not started)",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -792,7 +792,85 @@
         "type": "prometheus",
         "uid": "prometheus"
       },
-      "description": "",
+      "description": "HTTP Status != 200",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "continuous-GrYlRd"
+          },
+          "fieldMinMax": false,
+          "mappings": [],
+          "min": 0,
+          "noValue": "0",
+          "thresholds": {
+            "mode": "percentage",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 12,
+        "y": 12
+      },
+      "id": 24,
+      "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "/^ERROR$/",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": false,
+        "sizing": "auto"
+      },
+      "pluginVersion": "11.5.1",
+      "targets": [
+        {
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "mub_error_requests_total{experiment_id=\"$experiment\"}",
+          "instant": false,
+          "legendFormat": "ERROR",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "max(mub_processed_requests{experiment_id=\"$experiment\"})*0.05",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "ALL",
+          "range": true,
+          "refId": "B"
+        }
+      ],
+      "title": "Request Errors",
+      "type": "gauge"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "description": "Request was not started at the desired timestamp",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -820,7 +898,7 @@
       "gridPos": {
         "h": 4,
         "w": 4,
-        "x": 12,
+        "x": 16,
         "y": 12
       },
       "id": 17,

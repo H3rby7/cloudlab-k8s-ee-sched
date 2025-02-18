@@ -24,9 +24,87 @@
     {
       "datasource": {
         "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "description": "HTTP Status != 200",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "continuous-GrYlRd"
+          },
+          "fieldMinMax": false,
+          "mappings": [],
+          "min": 0,
+          "noValue": "0",
+          "thresholds": {
+            "mode": "percentage",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 7,
+        "x": 0,
+        "y": 0
+      },
+      "id": 27,
+      "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "/^ERROR$/",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": false,
+        "sizing": "auto"
+      },
+      "pluginVersion": "11.5.1",
+      "targets": [
+        {
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "mub_error_requests_total",
+          "instant": false,
+          "legendFormat": "ERROR",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "max(mub_processed_requests)*0.05",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "ALL",
+          "range": true,
+          "refId": "B"
+        }
+      ],
+      "title": "Request Errors",
+      "type": "gauge"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
         "uid": "${ds}"
       },
-      "description": "",
+      "description": "Request was not started at the desired timestamp",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -54,7 +132,7 @@
       "gridPos": {
         "h": 4,
         "w": 7,
-        "x": 0,
+        "x": 7,
         "y": 0
       },
       "id": 17,
@@ -159,8 +237,8 @@
       "gridPos": {
         "h": 4,
         "w": 7,
-        "x": 7,
-        "y": 0
+        "x": 0,
+        "y": 4
       },
       "id": 22,
       "options": {
@@ -192,97 +270,7 @@
           "type": "math"
         }
       ],
-      "title": "Time Taken (seconds)",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "prometheus"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "decimals": 4,
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "text",
-                "value": null
-              }
-            ]
-          },
-          "unit": "watth"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 4,
-        "w": 7,
-        "x": 0,
-        "y": 4
-      },
-      "id": 23,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "percentChangeColorMode": "standard",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "/^Wh$/",
-          "values": false
-        },
-        "showPercentChange": false,
-        "textMode": "auto",
-        "wideLayout": true
-      },
-      "pluginVersion": "11.5.1",
-      "targets": [
-        {
-          "disableTextWrap": false,
-          "editorMode": "builder",
-          "exemplar": false,
-          "expr": "sum(avg_over_time(node_ipmi_power_watts{sensor=~\"$sensor\", node_name!~\"node-0|node-1|node-2\"}[10s]))",
-          "fullMetaSearch": false,
-          "includeNullMetadata": true,
-          "instant": true,
-          "legendFormat": "watt_avg {{node_name}}",
-          "range": false,
-          "refId": "WATT",
-          "useBackend": false
-        },
-        {
-          "datasource": {
-            "name": "Expression",
-            "type": "__expr__",
-            "uid": "__expr__"
-          },
-          "expression": "(${__to} - ${__from})/1000/3600",
-          "hide": false,
-          "refId": "DUR_HOUR",
-          "type": "math"
-        },
-        {
-          "datasource": {
-            "name": "Expression",
-            "type": "__expr__",
-            "uid": "__expr__"
-          },
-          "expression": "$DUR_HOUR * $WATT",
-          "hide": false,
-          "refId": "Wh",
-          "type": "math"
-        }
-      ],
-      "title": "Energy Consumption",
+      "title": "Total Experiment Duration (seconds)",
       "type": "stat"
     },
     {
@@ -355,8 +343,28 @@
       "type": "stat"
     },
     {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
       "fieldConfig": {
-        "defaults": {},
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 4,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "text",
+                "value": null
+              }
+            ]
+          },
+          "unit": "watth"
+        },
         "overrides": []
       },
       "gridPos": {
@@ -365,19 +373,64 @@
         "x": 0,
         "y": 8
       },
-      "id": 26,
+      "id": 23,
       "options": {
-        "code": {
-          "language": "plaintext",
-          "showLineNumbers": false,
-          "showMiniMap": false
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "/^Wh$/",
+          "values": false
         },
-        "content": "```\r\n            10,000,000\r\n--------------------------------------\r\nenergy * total response time (seconds)\r\n```",
-        "mode": "markdown"
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
       },
       "pluginVersion": "11.5.1",
-      "title": "Score Formula",
-      "type": "text"
+      "targets": [
+        {
+          "disableTextWrap": false,
+          "editorMode": "builder",
+          "exemplar": false,
+          "expr": "sum(avg_over_time(node_ipmi_power_watts{sensor=~\"$sensor\", node_name!~\"node-0|node-1|node-2\"}[10s]))",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
+          "instant": true,
+          "legendFormat": "watt_avg {{node_name}}",
+          "range": false,
+          "refId": "WATT",
+          "useBackend": false
+        },
+        {
+          "datasource": {
+            "name": "Expression",
+            "type": "__expr__",
+            "uid": "__expr__"
+          },
+          "expression": "(${__to} - ${__from})/1000/3600",
+          "hide": false,
+          "refId": "DUR_HOUR",
+          "type": "math"
+        },
+        {
+          "datasource": {
+            "name": "Expression",
+            "type": "__expr__",
+            "uid": "__expr__"
+          },
+          "expression": "$DUR_HOUR * $WATT",
+          "hide": false,
+          "refId": "Wh",
+          "type": "math"
+        }
+      ],
+      "title": "Energy Consumption",
+      "type": "stat"
     },
     {
       "datasource": {
@@ -497,6 +550,31 @@
       ],
       "title": "Score",
       "type": "stat"
+    },
+    {
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 7,
+        "x": 0,
+        "y": 12
+      },
+      "id": 26,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "```\r\n            10,000,000\r\n--------------------------------------\r\nenergy * total response time (seconds)\r\n```",
+        "mode": "markdown"
+      },
+      "pluginVersion": "11.5.1",
+      "title": "Score Formula",
+      "type": "text"
     }
   ],
   "preload": false,
