@@ -101,12 +101,12 @@ pc.defineParameter(
     advanced=True)
 pc.defineParameter(
     "kubeVersion","Kubernetes Version",
-    portal.ParameterType.STRING,"",
+    portal.ParameterType.STRING,"v1.25.6",
     longDescription="A specific release of Kubernetes to install (e.g. v1.16.3); if left empty, Kubespray will choose its current stable version and install that.  You can check for Kubespray-known releases at https://github.com/kubernetes-sigs/kubespray/blob/release-2.16/roles/download/defaults/main.yml (or if you're using a different Kubespray release, choose the corresponding feature release branch in that URL).  You can use unsupported or unknown versions, however, as long as the binaries actually exist.",
     advanced=True)
 pc.defineParameter(
     "helmVersion","Helm Version",
-    portal.ParameterType.STRING,"",
+    portal.ParameterType.STRING,"v3.10.3",
     longDescription="A specific release of Helm to install (e.g. v2.12.3); if left empty, Kubespray will choose its current stable version and install that.  Note that the version you pick must exist as a tag in this Docker image repository: https://hub.docker.com/r/lachlanevenson/k8s-helm/tags .",
     advanced=True)
 pc.defineParameter(
@@ -117,8 +117,8 @@ pc.defineParameter(
     advanced=True)
 pc.defineParameter(
     "dockerVersion","Docker Version",
-    portal.ParameterType.STRING,"",
-    longDescription="A specific Docker version to install; if left empty, Kubespray will choose its current stable version and install that.  As explained in the Kubespray documentation (https://github.com/kubernetes-sigs/kubespray/blob/master/docs/vars.md), this value must be one of those listed at, e.g. https://github.com/kubernetes-sigs/kubespray/blob/release-2.20/roles/container-engine/docker/vars/ubuntu.yml .",
+    portal.ParameterType.STRING,"20.10",
+    longDescription="A specific Docker version to install; if left empty, Kubespray will choose its current stable version and install that.  As explained in the Kubespray documentation (https://github.com/kubernetes-sigs/kubespray/blob/master/docs/vars.md), this value must be one of those listed at, e.g. https://github.com/kubernetes-sigs/kubespray/blob/release-2.21/roles/container-engine/docker/vars/ubuntu.yml .",
     advanced=True)
 pc.defineParameter(
     "dockerOptions","Dockerd Options",
