@@ -195,7 +195,7 @@ EOF
 fi
 if [ -n "${DOCKERVERSION}" ]; then
     cat <<EOF >> $OVERRIDES
-docker_version: ${DOCKERVERSION}
+docker_version: "${DOCKERVERSION}"
 EOF
 fi
 if [ -n "${KUBEVERSION}" ]; then
