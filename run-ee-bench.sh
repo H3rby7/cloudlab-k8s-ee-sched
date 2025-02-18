@@ -27,6 +27,7 @@ echo "Creating helm values file"
 benchmark_node_count=`awk -F'[<>]' '$0 ~ /name="emulab.net.parameter.benchmarkNodeCount"/ {print $3}' $OURDIR/manifests.0.xml`
 total_cpu=`awk -F'[<>]' '$0 ~ /name="emulab.net.parameter.totalCPU"/ {print $3}' $OURDIR/manifests.0.xml`
 total_memory=`awk -F'[<>]' '$0 ~ /name="emulab.net.parameter.totalMEMORY"/ {print $3}' $OURDIR/manifests.0.xml`
+set_limits=`awk -F'[<>]' '$0 ~ /name="emulab.net.parameter.setResourceLimits"/ {print $3}' $OURDIR/manifests.0.xml`
 
 
 cat <<EOF > $OURDIR/custom-helm-values.yaml
@@ -35,6 +36,9 @@ resources:
     node_count: $benchmark_node_count
     nodes_total_cpu_cores: $total_cpu
     nodes_total_memory_mbytes: $total_memory
+  service_cell:
+    # value in profile -> '$set_limits'
+    set_resource_limits: false
 EOF
 
 echo "****************** Custom HELM values ******************"
