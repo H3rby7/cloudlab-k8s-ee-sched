@@ -309,7 +309,7 @@ Standard Auth for almost anything: username `admin`, password `{password-adminPa
 
 ## Waiting for your Experiment to Complete Setup
 
-Once the initial phase of experiment creation completes (disk load and node configuration), the profile's setup scripts begin the complex process of installing software according to profile parameters, so you must wait to access software resources until they complete.  The Kubernetes dashboard link will not be available immediately.  There are multiple ways to determine if the scripts have finished.
+Once the initial phase of experiment creation completes (disk load and node configuration), the profile's setup scripts begin the complex process of installing software according to profile parameters, so you must wait to access software resources until they complete. There are multiple ways to determine if the scripts have finished.
   - First, you can watch the experiment status page: the overall State will say \"booted (startup services are still running)\" to indicate that the nodes have booted up, but the setup scripts are still running.
   - Second, the Topology View will show you, for each node, the status of the startup command on each node (the startup command kicks off the setup scripts on each node).  Once the startup command has finished on each node, the overall State field will change to \"ready\".  If any of the startup scripts fail, you can mouse over the failed node in the topology viewer for the status code.
   - Third, the profile configuration scripts send emails: one to notify you that profile setup has started, and another notify you that setup has completed.
@@ -321,35 +321,18 @@ Everything you need to access is exposed via NGINX Ingress and LoadBalancer - fi
 
     kubectl -nnginx get svc nginx-ingress-nginx-controller | awk -F ' ' '{print $4}'
 
-When prompted for a login, use the standard credentials.
+When prompted for a login, use the standard credentials mentioned at the top of the instructions.
 
 ## Kubernetes, Kubectl and kubeconf
 
 Kubernetes credentials are in `~/.kube/config`, or in `/root/.kube/config` (of node-0), as you'd expect.
-
-## Changing your Kubernetes deployment
-
-The profile's setup scripts are automatically installed on each node in `/local/repository`, and all of the Kubernetes installation is triggered from `node-0`.  The scripts execute as your uid, and keep state and downloaded files in `/local/setup/`.  The scripts write copious logfiles in that directory; so if you think there's a problem with the configuration, you could take a quick look through these logs on the `node-0` node.  The primary logfile is `/local/logs/setup.log`.
-
-Kubespray is a collection of Ansible playbooks, so you can make changes to the deployed kubernetes cluster, or even destroy and rebuild it (although you would then lose any of the post-install configuration we do in `/local/repository/setup-kubernetes-extra.sh`).  The `/local/repository/setup-kubespray.sh` script installs Ansible inside a Python 3 `virtualenv` (in `/local/setup/kubespray-virtualenv` on `node-0`).  A `virtualenv` (or `venv`) is effectively a separate part of the filesystem containing Python libraries and scripts, and a set of environment variables and paths that restrict its user to those Python libraries and scripts.  To modify your cluster's configuration in the Kubespray/Ansible way, you can run commands like these (as your uid):
-
-1. "Enter" (or access) the "virtualenv": `. /local/setup/kubespray-virtualenv/bin/activate`
-2. Leave (or remove the environment vars from your shell session) the "virtualenv": `deactivate`
-3. Destroy your entire kubernetes cluster: `ansible-playbook -i /local/setup/inventories/kubernetes/inventory.ini /local/setup/kubespray/remove-node.yml -b -v --extra-vars "node=node-0,node-1,node-2"`
-   (note that you would want to supply the short names of all nodes in your experiment)
-4. Recreate your kubernetes cluster: `ansible-playbook -i /local/setup/inventories/kubernetes/inventory.ini /local/setup/kubespray/cluster.yml -b -v`
-
-To change the Ansible and playbook configuration, you can start reading Kubespray documentation:
-  - https://github.com/kubernetes-sigs/kubespray/blob/master/docs/getting-started.md
-  - https://github.com/kubernetes-sigs/kubespray
-  - https://kubespray.io/
 """
 
 #
 # Customizable area for forks.
 #
 tourDescription = \
-  "This profile creates a Kubernetes cluster to benchmark kubernetes schedulers. When you click the Instantiate button, you'll be presented with a list of parameters that you can change to control what your Kubernetes cluster will look like; read the parameter documentation on that page (or in the Instructions)."
+  "This profile creates a Kubernetes cluster to benchmark kubernetes schedulers. When you click the Instantiate button, you'll be presented with a list of parameters; read the parameter documentation on that page (or in the Instructions)."
 
 tourInstructions = kubeInstructions
 
