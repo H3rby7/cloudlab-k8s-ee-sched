@@ -59,11 +59,13 @@ pc.defineParameter(
 pc.defineParameter(
     "benchmarkDatasetBaseURL","Benchmark Dataset Base URL",
     portal.ParameterType.STRING,
+    # https://github.com/H3rby7/cloudlab-k8s-ee-sched-data/raw/ae910ad04dd18bb512fff63b90b31772d520c8b6/2774
     "https://github.com/H3rby7/cloudlab-k8s-ee-sched-data/raw/refs/heads/main/2774",
     longDescription="URL base to retrieve the dataset files (appended to the URL): [sampled_traces.tsv, deployment_ts.tsv, min_max_normalized_service_metrics.tsv, service_graphs.json, target_resource_means.json]")
 pc.defineParameter(
     "benchmarkFunctionsBaseURL","Benchmark Functions Base URL",
     portal.ParameterType.STRING,
+    # https://github.com/H3rby7/cloudlab-k8s-ee-sched-functions/raw/9a706ec01cb024a586f1a463fff83a3e41d6c551
     "https://github.com/H3rby7/cloudlab-k8s-ee-sched-functions/raw/refs/heads/main",
     longDescription="URL base to retrieve the InternalServiceFunctions for the service cells: [Loader.py]")
 pc.defineParameter(
