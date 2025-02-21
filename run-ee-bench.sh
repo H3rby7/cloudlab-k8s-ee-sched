@@ -1,10 +1,5 @@
 #!/bin/sh
 
-##
-## Get internal service functions (uBench CustomFunctions) from github and make it available at
-## /internal-svc-functions
-##
-
 set -x
 
 # Grab our libs
