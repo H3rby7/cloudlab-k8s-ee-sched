@@ -46,15 +46,15 @@ pc.defineParameter(
     longDescription="Number of nodes in your kubernetes cluster to run the benchmark. Must be > 0.")
 pc.defineParameter(
     "nodeType","Hardware Type",
-    portal.ParameterType.NODETYPE,"c220g2",
+    portal.ParameterType.NODETYPE,"d710",
     longDescription="A specific hardware type to use for each node. Cloudlab clusters all have machines of specific types.  When you set this field to a value that is a specific hardware type, you will only be able to instantiate this profile on clusters with machines of that type.  If unset, when you instantiate the profile, the resulting experiment may have machines of any available type allocated.")
 pc.defineParameter(
     "totalCPU","Total CPU core count",
-    portal.ParameterType.INTEGER,100,
+    portal.ParameterType.INTEGER,40,
     longDescription="Sum of benchmarking nodes' `hw_cpu_cores` (see machine specs). E.G. 4 nodes with 10 cores each = 40")
 pc.defineParameter(
     "totalMEMORY","Total MEMORY size",
-    portal.ParameterType.INTEGER,1638400,
+    portal.ParameterType.INTEGER,122880,
     longDescription="Sum of benchmarking nodes' `hw_mem_size` (see machine specs). E.G. 4 nodes with 125000 each = 600000")
 pc.defineParameter(
     "benchmarkDatasetBaseURL","Benchmark Dataset Base URL",
