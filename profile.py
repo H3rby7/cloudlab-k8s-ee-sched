@@ -42,7 +42,7 @@ pc.defineParameter(
     longDescription="Used for pod.spec.schedulerName")
 pc.defineParameter(
     "benchmarkNodeCount","Number of Benchmarking Nodes",
-    portal.ParameterType.INTEGER,5,
+    portal.ParameterType.INTEGER,10,
     longDescription="Number of nodes in your kubernetes cluster to run the benchmark. Must be > 0.")
 pc.defineParameter(
     "nodeType","Hardware Type",
@@ -50,11 +50,11 @@ pc.defineParameter(
     longDescription="A specific hardware type to use for each node. Cloudlab clusters all have machines of specific types.  When you set this field to a value that is a specific hardware type, you will only be able to instantiate this profile on clusters with machines of that type.  If unset, when you instantiate the profile, the resulting experiment may have machines of any available type allocated.")
 pc.defineParameter(
     "totalCPU","Total CPU core count",
-    portal.ParameterType.INTEGER,50,
+    portal.ParameterType.INTEGER,100,
     longDescription="Sum of benchmarking nodes' `hw_cpu_cores` (see machine specs). E.G. 4 nodes with 10 cores each = 40")
 pc.defineParameter(
     "totalMEMORY","Total MEMORY size",
-    portal.ParameterType.INTEGER,819200,
+    portal.ParameterType.INTEGER,1638400,
     longDescription="Sum of benchmarking nodes' `hw_mem_size` (see machine specs). E.G. 4 nodes with 125000 each = 600000")
 pc.defineParameter(
     "benchmarkDatasetBaseURL","Benchmark Dataset Base URL",
