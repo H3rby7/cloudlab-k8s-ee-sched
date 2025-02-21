@@ -36,6 +36,11 @@ pc = portal.Context()
 # Define some parameters.
 #
 pc.defineParameter(
+    "benchmarkScheduler","Scheduler to benchmark",
+    portal.ParameterType.STRING,
+    "default-scheduler",
+    longDescription="Used for pod.spec.schedulerName")
+pc.defineParameter(
     "benchmarkNodeCount","Number of Benchmarking Nodes",
     portal.ParameterType.INTEGER,5,
     longDescription="Number of nodes in your kubernetes cluster to run the benchmark. Must be > 0.")

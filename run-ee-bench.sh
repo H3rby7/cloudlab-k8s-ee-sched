@@ -24,11 +24,11 @@ helm repo update
 
 echo "Creating helm values file"
 
+scheduler=`awk -F'[<>]' '$0 ~ /name="emulab.net.parameter.benchmarkScheduler"/ {print $3}' $OURDIR/manifests.0.xml`
 benchmark_node_count=`awk -F'[<>]' '$0 ~ /name="emulab.net.parameter.benchmarkNodeCount"/ {print $3}' $OURDIR/manifests.0.xml`
 total_cpu=`awk -F'[<>]' '$0 ~ /name="emulab.net.parameter.totalCPU"/ {print $3}' $OURDIR/manifests.0.xml`
 total_memory=`awk -F'[<>]' '$0 ~ /name="emulab.net.parameter.totalMEMORY"/ {print $3}' $OURDIR/manifests.0.xml`
 set_limits=`awk -F'[<>]' '$0 ~ /name="emulab.net.parameter.setResourceLimits"/ {print $3}' $OURDIR/manifests.0.xml`
-
 
 cat <<EOF > $OURDIR/custom-helm-values.yaml
 resources:
@@ -38,6 +38,8 @@ resources:
     nodes_total_memory_mbytes: $total_memory
   service_cell:
     set_resource_limits: $set_limits
+benchmark:
+  scheduler: $scheduler
 EOF
 
 echo "****************** Custom HELM values ******************"
