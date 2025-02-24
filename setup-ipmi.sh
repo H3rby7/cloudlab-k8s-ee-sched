@@ -20,7 +20,7 @@ fi
 
 logtstart "ipmi-$EUID"
 
-$SUDO apt-get install -y ipmitool moreutils
+$SUDO apt-get install -y ipmitool=1.8.18-11ubuntu2.1 moreutils=0.66-1
 $SUDO mkdir -p /node-exporter-text-collectors
 $SUDO chmod 777 /node-exporter-text-collectors
 $SUDO wget -O ipmi2prom https://github.com/prometheus-community/node-exporter-textfile-collector-scripts/raw/4098ef9ba573cd5ac20e01d63d1586925348a4ac/ipmitool
