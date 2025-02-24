@@ -207,7 +207,7 @@
           "color": {
             "mode": "thresholds"
           },
-          "decimals": 4,
+          "decimals": 3,
           "mappings": [],
           "thresholds": {
             "mode": "percentage",
@@ -284,7 +284,7 @@
           "color": {
             "mode": "fixed"
           },
-          "decimals": 4,
+          "decimals": 3,
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
@@ -352,7 +352,7 @@
           "color": {
             "mode": "thresholds"
           },
-          "decimals": 4,
+          "decimals": 6,
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
@@ -363,7 +363,7 @@
               }
             ]
           },
-          "unit": "watth"
+          "unit": "none"
         },
         "overrides": []
       },
@@ -429,7 +429,7 @@
           "type": "math"
         }
       ],
-      "title": "Energy Consumption",
+      "title": "Energy Consumption (Wh)",
       "type": "stat"
     },
     {
@@ -443,7 +443,7 @@
           "color": {
             "mode": "thresholds"
           },
-          "decimals": 4,
+          "decimals": 6,
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
