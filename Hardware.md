@@ -4,22 +4,22 @@ https://docs.cloudlab.us/hardware.html#(part._cloudlab-wisconsin)
 
 Not all hardware has support to read the current power usage
 
-Site                | type                                                                         | power   | sensors
-------------------- | ---------------------------------------------------------------------------- | ------- | ------------------------------------
-Apt (UTAH)          | [r320](https://www.apt.emulab.net/portal/show-nodetype.php?type=r320)        | static  | `Pwr Consumption`
-Apt (UTAH)          | [c6220](https://www.apt.emulab.net/portal/show-nodetype.php?type=c6220)      | dynamic | `Input Voltage*Input Current`
-Cloudlab Wisconsin  | [c220g1](https://www.wisc.cloudlab.us/portal/show-nodetype.php?type=c220g1)  | dynamic | `PSU1 PIN, [POWER USAGE, PSU1 POUT]`
-Cloudlab Wisconsin  | [c220g2](https://www.wisc.cloudlab.us/portal/show-nodetype.php?type=c220g2)  | dynamic | `PSU1 PIN, [POWER USAGE, PSU1 POUT]`
-Cloudlab Wisconsin  | [c220g5](https://www.wisc.cloudlab.us/portal/show-nodetype.php?type=c220g5)  | dynamic | `PSU1 PIN, [POWER USAGE, PSU1 POUT]`
-Cloudlab Wisconsin  | [c6320](https://www.wisc.cloudlab.us/portal/show-nodetype.php?type=c6320)    | dynamic | `Pwr Consumption` (some nodes are always 0)
-Cloudlab Clemson    | [r6525](https://www.clemson.cloudlab.us/portal/show-nodetype.php?type=r6525) | dynamic | `Pwr Consumption`
-Cloudlab Clemson    | [r650](https://www.clemson.cloudlab.us/portal/show-nodetype.php?type=r650)   | probably | `Pwr Consumption`
-Cloudlab Utah       | [m400](https://www.utah.cloudlab.us/portal/show-nodetype.php?type=m400)      | none    | ipmitools do not work
-Cloudlab Utah       | [m510](https://www.utah.cloudlab.us/portal/show-nodetype.php?type=m510)      | none    | ipmitools have no power related info
-Cloudlab Utah       | [xl170](https://www.utah.cloudlab.us/portal/show-nodetype.php?type=xl170)    | static  | `[Power Supply 1, Power Supply 2, PS 1 Output, PS 2 Output]`
-Emulab              | [d430](https://www.emulab.net/portal/show-nodetype.php?type=d430)            | static  | `Pwr Consumption`
-Emulab              | [d710](https://www.emulab.net/portal/show-nodetype.php?type=d710)            | dynamic | `System Level` (seems to be static for some nodes, maybe it is not dynamic after all, but just fluctuations?)
-Emulab              | [pc3000](https://www.emulab.net/portal/show-nodetype.php?type=pc3000)        | n/a     | `n/a`
+Site                | type                                                                         | power   | base | sensors
+------------------- | ---------------------------------------------------------------------------- | ------- | ---- | ------------------------------------
+Apt (UTAH)          | [r320](https://www.apt.emulab.net/portal/show-nodetype.php?type=r320)        | static  |  n/a | `Pwr Consumption`
+Apt (UTAH)          | [c6220](https://www.apt.emulab.net/portal/show-nodetype.php?type=c6220)      | dynamic |      | `Input Voltage*Input Current`
+Cloudlab Wisconsin  | [c220g1](https://www.wisc.cloudlab.us/portal/show-nodetype.php?type=c220g1)  | dynamic |      | `PSU1 PIN, [POWER USAGE, PSU1 POUT]`
+Cloudlab Wisconsin  | [c220g2](https://www.wisc.cloudlab.us/portal/show-nodetype.php?type=c220g2)  | dynamic |      | `PSU1 PIN, [POWER USAGE, PSU1 POUT]`
+Cloudlab Wisconsin  | [c220g5](https://www.wisc.cloudlab.us/portal/show-nodetype.php?type=c220g5)  | dynamic |      | `PSU1 PIN, [POWER USAGE, PSU1 POUT]`
+Cloudlab Wisconsin  | [c6320](https://www.wisc.cloudlab.us/portal/show-nodetype.php?type=c6320)    | dynamic |      | `Pwr Consumption` (some nodes are always 0)
+Cloudlab Clemson    | [r6525](https://www.clemson.cloudlab.us/portal/show-nodetype.php?type=r6525) | dynamic |      | `Pwr Consumption`
+Cloudlab Clemson    | [r650](https://www.clemson.cloudlab.us/portal/show-nodetype.php?type=r650)   | probably |      | `Pwr Consumption`
+Cloudlab Utah       | [m400](https://www.utah.cloudlab.us/portal/show-nodetype.php?type=m400)      | none    |  n/a  | ipmitools do not work
+Cloudlab Utah       | [m510](https://www.utah.cloudlab.us/portal/show-nodetype.php?type=m510)      | none    |  n/a  | ipmitools have no power related info
+Cloudlab Utah       | [xl170](https://www.utah.cloudlab.us/portal/show-nodetype.php?type=xl170)    | static  |      | `[Power Supply 1, Power Supply 2, PS 1 Output, PS 2 Output]`
+Emulab              | [d430](https://www.emulab.net/portal/show-nodetype.php?type=d430)            | static  |      | `Pwr Consumption`
+Emulab              | [d710](https://www.emulab.net/portal/show-nodetype.php?type=d710)            | dynamic | 91W-98W (some 50/50, some at 98 with exceptions some at 91 with exception, sometimes 84)  | `System Level` (seems to be static for some nodes, maybe it is not dynamic after all, but just fluctuations?)
+Emulab              | [pc3000](https://www.emulab.net/portal/show-nodetype.php?type=pc3000)        | n/a     |  n/a  | `n/a`
 
 ## Non-working Sites
 
