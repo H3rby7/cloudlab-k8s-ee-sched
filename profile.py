@@ -190,28 +190,6 @@ pc.defineParameter(
     portal.ParameterType.BOOLEAN,False,
     longDescription="Allow the kube master to be a worker in the multi-node case (always true for single-node clusters); disabled by default.",
     advanced=True)
-pc.defineParameter(
-    "sslCertType","SSL Certificate Type",
-    portal.ParameterType.STRING,"none",
-    [("none","None"),("self","Self-Signed"),("letsencrypt","Let's Encrypt")],
-    advanced=True,
-    longDescription="Choose an SSL Certificate strategy.  By default, we generate self-signed certificates, and only use them for a reverse web proxy to allow secure remote access to the Kubernetes Dashboard.  However, you may choose `None` if you prefer to arrange remote access differently (e.g. ssh port forwarding).  You may also choose to use Let's Encrypt certificates whose trust root is accepted by all modern browsers.")
-pc.defineParameter(
-    "sslCertConfig","SSL Certificate Configuration",
-    portal.ParameterType.STRING,"proxy",
-    [("proxy","Web Proxy")],
-    advanced=True,
-    longDescription="Choose where you want the SSL certificates deployed.  Currently the only option is for them to be configured as part of the web proxy to the dashboard.")
-pc.defineParameter(
-    "doNFS","Enable NFS",
-    portal.ParameterType.BOOLEAN,False,
-    longDescription="NFS can be used by persistent volumes in Kubernetes services.",
-    advanced=True)
-pc.defineParameter(
-    "nfsAsync","Export NFS volume async",
-    portal.ParameterType.BOOLEAN,False,
-    longDescription="Force the default NFS volume to be exported `async`.  When enabled, clients will only be given asynchronous write behavior even if they request sync or write with sync flags.  This is dangerous, but some applications that rely on persistent storage cannot be configured to use more helpful sync options (e.g., fsync instead of O_DIRECT).  It will give you the absolute best performance, however.",
-    advanced=True)
 pc.defineStructParameter(
     "sharedVlans","Add Shared VLAN",[],
     multiValue=True,itemDefaultValue={},min=0,max=None,
@@ -315,7 +293,6 @@ Once the initial phase of experiment creation completes (disk load and node conf
   - First, you can watch the experiment status page: the overall State will say \"booted (startup services are still running)\" to indicate that the nodes have booted up, but the setup scripts are still running.
   - Second, the Topology View will show you, for each node, the status of the startup command on each node (the startup command kicks off the setup scripts on each node).  Once the startup command has finished on each node, the overall State field will change to \"ready\".  If any of the startup scripts fail, you can mouse over the failed node in the topology viewer for the status code.
   - Third, the profile configuration scripts send emails: one to notify you that profile setup has started, and another notify you that setup has completed.
-  - Finally, you can view [the profile setup script logfiles](http://{host-node-0}:7999/) as the setup scripts run.  Use the `admin` username and the automatically-generated random password `{password-adminPass}` .  This URL is available very quickly after profile setup scripts begin work.
 
 ## Accessing Services
 

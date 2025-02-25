@@ -6,9 +6,9 @@ set -x
 ln -s /local/logs/setup.log /local/setup/setup-driver.log
 
 ALLNODESCRIPTS="setup-ssh.sh setup-disk-space.sh setup-ipmi.sh"
-HEADNODESCRIPTS="setup-nfs-server.sh setup-nginx.sh setup-ssl.sh setup-kubespray.sh setup-kubernetes-extra.sh setup-ingress-controller.sh setup-metrics.sh setup-custom-scheduler.sh run-ee-bench.sh setup-end.sh"
+HEADNODESCRIPTS="setup-kubespray.sh setup-kubernetes-extra.sh setup-ingress-controller.sh setup-metrics.sh setup-custom-scheduler.sh run-ee-bench.sh setup-end.sh"
 OBSERVERNODESCRIPTS="setup-dataset.sh setup-functions.sh"
-WORKERNODESCRIPTS="setup-nfs-client.sh"
+WORKERNODESCRIPTS=""
 
 export SRC=`dirname $0`
 cd $SRC
