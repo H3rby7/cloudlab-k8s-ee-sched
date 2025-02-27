@@ -66,7 +66,7 @@ pc.defineParameter(
     "benchmarkFunctionsBaseURL","Benchmark Functions Base URL",
     portal.ParameterType.STRING,
     # "https://github.com/H3rby7/cloudlab-k8s-ee-sched-functions/raw/refs/heads/main",
-    "https://github.com/H3rby7/cloudlab-k8s-ee-sched-functions/raw/9a706ec01cb024a586f1a463fff83a3e41d6c551",
+    "https://github.com/H3rby7/cloudlab-k8s-ee-sched-functions/raw/5cf5f2a3490c08be25177e0f6c53bf96d9565e51",
     longDescription="URL base to retrieve the InternalServiceFunctions for the service cells: [Loader.py]")
 pc.defineParameter(
     "setResourceLimits", "Set Service Cell Resource Limits",
