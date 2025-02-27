@@ -47,7 +47,7 @@ EOF
 # Create a timer to trigger our IPMI service
 cat <<'EOF' | $SUDO tee /etc/systemd/system/ipmi.timer
 [Unit]
-Description=Run ipmi.service every 10 seconds
+Description=Run ipmi.service every 5 seconds
 
 [Timer]
 OnBootSec=5s
